@@ -2,458 +2,294 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>GHOST ARCHITECT AI</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
-            --ghost-black: #0a0a0f;
-            --ghost-dark: #111114;
-            --ghost-gray: #1a1a1f;
-            --ghost-border: #2a2a30;
-            --ghost-text: #e6e6e6;
+            --ghost-primary: #0a0a0f;
+            --ghost-secondary: #111114;
             --ghost-accent: #8a6df1;
-            --ghost-secondary: #3a86ff;
-            --ghost-highlight: #ff6b6b;
-            --ghost-dim: #6b6b7a;
+            --ghost-accent-dark: #6a4ef0;
+            --ghost-text: #f0f0f0;
+            --ghost-text-secondary: #a0a0b0;
+            --ghost-border: #2a2a35;
+            --ghost-card: #1a1a1f;
+            --ghost-success: #00d9b8;
+            --ghost-warning: #ff9a3c;
+            --ghost-danger: #ff6b8b;
+            --ghost-info: #3a86ff;
         }
-        
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
         }
-        
-        body {
-            font-family: 'Segoe UI', system-ui, sans-serif;
-            background: var(--ghost-black);
+
+        html, body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            background: var(--ghost-primary);
             color: var(--ghost-text);
-            height: 100vh;
+            height: 100%;
             overflow: hidden;
-            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
         }
-        
-        .container {
+
+        .app-container {
             display: flex;
             flex-direction: column;
             height: 100vh;
-            max-width: 100%;
+            height: -webkit-fill-available;
         }
-        
+
         /* Header */
-        header {
-            background: var(--ghost-dark);
-            padding: 1rem 1.5rem;
+        .header {
+            background: var(--ghost-secondary);
             border-bottom: 1px solid var(--ghost-border);
+            padding: 0.875rem 1rem;
             display: flex;
-            justify-content: space-between;
             align-items: center;
+            justify-content: space-between;
+            position: relative;
+            z-index: 10;
             flex-shrink: 0;
         }
-        
+
         .logo {
             display: flex;
             align-items: center;
             gap: 0.75rem;
         }
-        
+
         .logo-icon {
             color: var(--ghost-accent);
             font-size: 1.5rem;
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(138, 109, 241, 0.1);
+            border-radius: 8px;
         }
-        
+
         .logo-text {
             font-weight: 700;
-            letter-spacing: 1px;
-            font-size: 1.2rem;
+            font-size: 1.1rem;
+            letter-spacing: -0.5px;
         }
-        
+
         .logo-subtext {
-            color: var(--ghost-dim);
-            font-size: 0.85rem;
+            color: var(--ghost-text-secondary);
+            font-size: 0.8rem;
             font-weight: 400;
-            margin-left: 0.5rem;
         }
-        
-        .status-indicator {
+
+        .header-controls {
             display: flex;
             align-items: center;
             gap: 0.5rem;
-            font-size: 0.9rem;
-            color: var(--ghost-dim);
         }
-        
-        .status-dot {
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            background: #0fcc45;
-            animation: pulse 2s infinite;
+
+        .icon-button {
+            background: var(--ghost-card);
+            border: 1px solid var(--ghost-border);
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--ghost-text);
+            cursor: pointer;
+            transition: all 0.2s ease;
         }
-        
-        @keyframes pulse {
-            0% { opacity: 1; }
-            50% { opacity: 0.5; }
-            100% { opacity: 1; }
+
+        .icon-button:hover, .icon-button:active {
+            background: var(--ghost-accent);
+            border-color: var(--ghost-accent);
         }
-        
-        /* Main content */
-        main {
+
+        .mobile-menu-toggle {
+            display: none;
+        }
+
+        /* Main Content */
+        .main-content {
             display: flex;
             flex: 1;
             overflow: hidden;
+            position: relative;
         }
-        
+
         /* Sidebar */
         .sidebar {
-            width: 260px;
-            background: var(--ghost-dark);
+            width: 280px;
+            background: var(--ghost-secondary);
             border-right: 1px solid var(--ghost-border);
-            padding: 1.5rem 1rem;
             display: flex;
             flex-direction: column;
             flex-shrink: 0;
-            overflow-y: auto;
+            transition: transform 0.3s ease;
+            z-index: 5;
         }
-        
-        @media (max-width: 768px) {
-            .sidebar {
-                width: 100%;
-                border-right: none;
-                border-bottom: 1px solid var(--ghost-border);
-                padding: 1rem;
-                display: none;
-            }
-            
-            .sidebar.active {
-                display: flex;
-            }
+
+        .sidebar-header {
+            padding: 1.25rem 1rem;
+            border-bottom: 1px solid var(--ghost-border);
         }
-        
-        .persona-selector {
-            margin-bottom: 2rem;
-        }
-        
-        .persona-selector h3 {
+
+        .sidebar-title {
             font-size: 0.9rem;
             text-transform: uppercase;
             letter-spacing: 1px;
-            margin-bottom: 1rem;
-            color: var(--ghost-dim);
-        }
-        
-        .persona-options {
-            display: flex;
-            flex-direction: column;
-            gap: 0.5rem;
-        }
-        
-        .persona-btn {
-            background: var(--ghost-gray);
-            border: 1px solid var(--ghost-border);
-            color: var(--ghost-text);
-            padding: 0.75rem 1rem;
-            border-radius: 6px;
-            text-align: left;
-            cursor: pointer;
-            transition: all 0.2s;
-            font-size: 0.95rem;
-        }
-        
-        .persona-btn:hover {
-            background: #222228;
-            border-color: var(--ghost-accent);
-        }
-        
-        .persona-btn.active {
-            background: #1d1d25;
-            border-color: var(--ghost-accent);
-            color: var(--ghost-accent);
+            color: var(--ghost-text-secondary);
+            margin-bottom: 0.5rem;
             font-weight: 600;
         }
-        
-        .persona-icon {
-            margin-right: 0.5rem;
-            font-size: 0.9rem;
-        }
-        
-        .memory-section {
-            margin-top: 2rem;
-            flex: 1;
-        }
-        
-        .memory-section h3 {
-            font-size: 0.9rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-bottom: 1rem;
-            color: var(--ghost-dim);
-        }
-        
-        .memory-list {
-            background: var(--ghost-gray);
-            border-radius: 6px;
+
+        .persona-selector {
             padding: 1rem;
-            max-height: 300px;
+            flex: 1;
             overflow-y: auto;
+        }
+
+        .persona-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 0.75rem;
+        }
+
+        .persona-card {
+            background: var(--ghost-card);
+            border: 2px solid var(--ghost-border);
+            border-radius: 12px;
+            padding: 1rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .persona-card:hover {
+            border-color: var(--ghost-accent);
+            transform: translateY(-2px);
+        }
+
+        .persona-card.active {
+            border-color: var(--ghost-accent);
+            background: linear-gradient(135deg, rgba(138, 109, 241, 0.1), rgba(26, 26, 31, 0.9));
+            box-shadow: 0 4px 20px rgba(138, 109, 241, 0.2);
+        }
+
+        .persona-icon {
+            color: var(--ghost-accent);
+            font-size: 1.2rem;
+            margin-bottom: 0.75rem;
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(138, 109, 241, 0.1);
+            border-radius: 10px;
+        }
+
+        .persona-name {
+            font-weight: 600;
+            font-size: 1rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .persona-desc {
             font-size: 0.85rem;
-            color: var(--ghost-dim);
+            color: var(--ghost-text-secondary);
+            line-height: 1.4;
         }
-        
+
+        .memory-section {
+            padding: 1rem;
+            border-top: 1px solid var(--ghost-border);
+        }
+
+        .memory-card {
+            background: var(--ghost-card);
+            border-radius: 12px;
+            padding: 1rem;
+        }
+
         .memory-item {
+            display: flex;
+            justify-content: space-between;
             padding: 0.5rem 0;
-            border-bottom: 1px solid rgba(42, 42, 48, 0.5);
+            border-bottom: 1px solid rgba(42, 42, 53, 0.5);
+            font-size: 0.85rem;
         }
-        
+
         .memory-item:last-child {
             border-bottom: none;
         }
-        
-        /* Chat area */
-        .chat-area {
+
+        .memory-label {
+            color: var(--ghost-text-secondary);
+        }
+
+        .memory-value {
+            font-weight: 500;
+        }
+
+        /* Chat Area */
+        .chat-container {
             flex: 1;
             display: flex;
             flex-direction: column;
             overflow: hidden;
         }
-        
+
         .chat-header {
-            padding: 1rem 1.5rem;
+            padding: 1rem 1.25rem;
             border-bottom: 1px solid var(--ghost-border);
             display: flex;
-            justify-content: space-between;
             align-items: center;
+            gap: 1rem;
         }
-        
+
         .current-persona {
             display: flex;
             align-items: center;
             gap: 0.75rem;
-        }
-        
-        .persona-badge {
-            background: var(--ghost-gray);
-            padding: 0.4rem 0.8rem;
-            border-radius: 20px;
-            font-size: 0.9rem;
+            padding: 0.5rem 0.75rem;
+            background: var(--ghost-card);
+            border-radius: 10px;
             border: 1px solid var(--ghost-accent);
+        }
+
+        .current-persona-icon {
             color: var(--ghost-accent);
+            font-size: 1rem;
         }
-        
-        .mobile-toggle {
-            display: none;
-            background: none;
-            border: 1px solid var(--ghost-border);
-            color: var(--ghost-text);
-            padding: 0.5rem;
-            border-radius: 6px;
-            cursor: pointer;
+
+        .current-persona-name {
+            font-weight: 600;
+            font-size: 0.95rem;
         }
-        
-        @media (max-width: 768px) {
-            .mobile-toggle {
-                display: block;
-            }
+
+        .current-persona-desc {
+            font-size: 0.85rem;
+            color: var(--ghost-text-secondary);
         }
-        
+
         .chat-messages {
             flex: 1;
             overflow-y: auto;
-            padding: 1.5rem;
+            padding: 1.25rem;
             display: flex;
             flex-direction: column;
             gap: 1.5rem;
+            scroll-behavior: smooth;
         }
-        
-        .message {
-            display: flex;
-            max-width: 85%;
-            animation: fadeIn 0.3s ease-out;
-        }
-        
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        
-        .message.user {
-            align-self: flex-end;
-            flex-direction: row-reverse;
-        }
-        
-        .message-avatar {
-            width: 36px;
-            height: 36px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-shrink: 0;
-            margin-top: 0.25rem;
-        }
-        
-        .message.user .message-avatar {
-            background: #1d2b4f;
-            margin-left: 0.75rem;
-        }
-        
-        .message.ai .message-avatar {
-            background: #2d1b4f;
-            margin-right: 0.75rem;
-        }
-        
-        .message-content {
-            background: var(--ghost-gray);
-            padding: 1rem 1.25rem;
-            border-radius: 12px;
-            border: 1px solid var(--ghost-border);
-        }
-        
-        .message.user .message-content {
-            background: #1d2b4f;
-            border-color: #2a3a6a;
-            border-top-right-radius: 4px;
-        }
-        
-        .message.ai .message-content {
-            background: #1d1d25;
-            border-color: var(--ghost-accent);
-            border-top-left-radius: 4px;
-        }
-        
-        .message-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 0.5rem;
-        }
-        
-        .message-sender {
-            font-weight: 600;
-            font-size: 0.9rem;
-        }
-        
-        .message.user .message-sender {
-            color: var(--ghost-secondary);
-        }
-        
-        .message.ai .message-sender {
-            color: var(--ghost-accent);
-        }
-        
-        .message-time {
-            font-size: 0.75rem;
-            color: var(--ghost-dim);
-        }
-        
-        .message-text {
-            font-size: 0.95rem;
-            line-height: 1.6;
-        }
-        
-        .message.ai .message-text {
-            color: #f0f0f0;
-        }
-        
-        /* Input area */
-        .input-area {
-            padding: 1.5rem;
-            border-top: 1px solid var(--ghost-border);
-            background: var(--ghost-dark);
-        }
-        
-        .input-container {
-            display: flex;
-            gap: 0.75rem;
-            align-items: flex-end;
-        }
-        
-        .input-wrapper {
-            flex: 1;
-            position: relative;
-        }
-        
-        textarea {
-            width: 100%;
-            background: var(--ghost-gray);
-            border: 1px solid var(--ghost-border);
-            border-radius: 10px;
-            color: var(--ghost-text);
-            padding: 1rem 1rem 3rem 1rem;
-            font-family: inherit;
-            font-size: 1rem;
-            resize: none;
-            min-height: 60px;
-            max-height: 150px;
-            line-height: 1.5;
-        }
-        
-        textarea:focus {
-            outline: none;
-            border-color: var(--ghost-accent);
-        }
-        
-        .input-actions {
-            position: absolute;
-            bottom: 0.75rem;
-            right: 0.75rem;
-            display: flex;
-            gap: 0.5rem;
-        }
-        
-        .action-btn {
-            background: var(--ghost-black);
-            border: 1px solid var(--ghost-border);
-            color: var(--ghost-text);
-            width: 36px;
-            height: 36px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-        
-        .action-btn:hover {
-            background: var(--ghost-accent);
-            border-color: var(--ghost-accent);
-            color: white;
-        }
-        
-        .send-btn {
-            background: var(--ghost-accent);
-            border: none;
-            color: white;
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            transition: all 0.2s;
-            flex-shrink: 0;
-        }
-        
-        .send-btn:hover {
-            background: #7a5aed;
-            transform: scale(1.05);
-        }
-        
-        .voice-active {
-            background: var(--ghost-highlight) !important;
-            border-color: var(--ghost-highlight) !important;
-            animation: pulse-voice 1.5s infinite;
-        }
-        
-        @keyframes pulse-voice {
-            0% { box-shadow: 0 0 0 0 rgba(255, 107, 107, 0.7); }
-            70% { box-shadow: 0 0 0 10px rgba(255, 107, 107, 0); }
-            100% { box-shadow: 0 0 0 0 rgba(255, 107, 107, 0); }
-        }
-        
-        /* Welcome screen */
+
         .welcome-screen {
             display: flex;
             flex-direction: column;
@@ -463,662 +299,1274 @@
             padding: 2rem;
             text-align: center;
         }
-        
+
         .welcome-icon {
             font-size: 4rem;
             color: var(--ghost-accent);
             margin-bottom: 1.5rem;
+            animation: float 6s ease-in-out infinite;
         }
-        
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
         .welcome-title {
-            font-size: 2rem;
-            margin-bottom: 1rem;
-            background: linear-gradient(90deg, var(--ghost-accent), var(--ghost-secondary));
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(135deg, var(--ghost-accent), var(--ghost-info));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
-        
+
         .welcome-subtitle {
-            color: var(--ghost-dim);
-            max-width: 600px;
-            margin-bottom: 2rem;
+            color: var(--ghost-text-secondary);
+            max-width: 500px;
             line-height: 1.6;
+            margin-bottom: 2rem;
         }
-        
-        .welcome-features {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 1rem;
-            width: 100%;
-            max-width: 800px;
-            margin-top: 2rem;
+
+        .message {
+            display: flex;
+            max-width: 85%;
+            animation: messageAppear 0.3s ease-out;
         }
-        
-        .feature {
-            background: var(--ghost-gray);
-            padding: 1.5rem;
+
+        @keyframes messageAppear {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .message.user {
+            align-self: flex-end;
+            flex-direction: row-reverse;
+        }
+
+        .message-avatar {
+            width: 36px;
+            height: 36px;
             border-radius: 10px;
-            border: 1px solid var(--ghost-border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            margin-top: 0.25rem;
         }
-        
-        .feature-icon {
-            font-size: 1.5rem;
+
+        .message.user .message-avatar {
+            background: rgba(58, 134, 255, 0.1);
+            margin-left: 0.75rem;
+            color: var(--ghost-info);
+        }
+
+        .message.ai .message-avatar {
+            background: rgba(138, 109, 241, 0.1);
+            margin-right: 0.75rem;
             color: var(--ghost-accent);
-            margin-bottom: 0.75rem;
         }
-        
-        .feature-title {
-            font-weight: 600;
+
+        .message-content {
+            background: var(--ghost-card);
+            padding: 1rem 1.25rem;
+            border-radius: 16px;
+            border: 1px solid var(--ghost-border);
+            position: relative;
+            overflow-wrap: break-word;
+            word-wrap: break-word;
+            word-break: break-word;
+        }
+
+        .message.user .message-content {
+            background: linear-gradient(135deg, rgba(58, 134, 255, 0.1), rgba(26, 26, 31, 0.9));
+            border-color: rgba(58, 134, 255, 0.3);
+            border-top-right-radius: 4px;
+        }
+
+        .message.ai .message-content {
+            background: linear-gradient(135deg, rgba(138, 109, 241, 0.1), rgba(26, 26, 31, 0.9));
+            border-color: rgba(138, 109, 241, 0.3);
+            border-top-left-radius: 4px;
+        }
+
+        .message-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
             margin-bottom: 0.5rem;
         }
-        
-        .feature-desc {
+
+        .message-sender {
+            font-weight: 600;
             font-size: 0.9rem;
-            color: var(--ghost-dim);
         }
-        
-        /* Responsive adjustments */
-        @media (max-width: 768px) {
-            .chat-header {
-                padding: 0.75rem 1rem;
+
+        .message.user .message-sender {
+            color: var(--ghost-info);
+        }
+
+        .message.ai .message-sender {
+            color: var(--ghost-accent);
+        }
+
+        .message-time {
+            font-size: 0.75rem;
+            color: var(--ghost-text-secondary);
+        }
+
+        .message-text {
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        .typing-indicator {
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+            padding: 1rem;
+            background: var(--ghost-card);
+            border-radius: 16px;
+            border: 1px solid var(--ghost-border);
+            width: fit-content;
+            margin-bottom: 1.5rem;
+        }
+
+        .typing-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--ghost-accent);
+            animation: typing 1.4s infinite ease-in-out;
+        }
+
+        .typing-dot:nth-child(1) { animation-delay: -0.32s; }
+        .typing-dot:nth-child(2) { animation-delay: -0.16s; }
+
+        @keyframes typing {
+            0%, 80%, 100% { transform: scale(0.8); opacity: 0.5; }
+            40% { transform: scale(1); opacity: 1; }
+        }
+
+        /* Input Area */
+        .input-area {
+            padding: 1rem 1.25rem;
+            border-top: 1px solid var(--ghost-border);
+            background: var(--ghost-secondary);
+            flex-shrink: 0;
+        }
+
+        .input-container {
+            display: flex;
+            gap: 0.75rem;
+            align-items: flex-end;
+        }
+
+        .input-wrapper {
+            flex: 1;
+            position: relative;
+        }
+
+        .message-input {
+            width: 100%;
+            background: var(--ghost-card);
+            border: 2px solid var(--ghost-border);
+            border-radius: 14px;
+            color: var(--ghost-text);
+            padding: 1rem 1rem 3.5rem 1rem;
+            font-family: inherit;
+            font-size: 1rem;
+            resize: none;
+            min-height: 60px;
+            max-height: 150px;
+            line-height: 1.5;
+            transition: border-color 0.2s ease;
+        }
+
+        .message-input:focus {
+            outline: none;
+            border-color: var(--ghost-accent);
+        }
+
+        .input-actions {
+            position: absolute;
+            bottom: 0.75rem;
+            right: 0.75rem;
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .input-action-btn {
+            background: var(--ghost-primary);
+            border: 1px solid var(--ghost-border);
+            color: var(--ghost-text);
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-size: 1rem;
+        }
+
+        .input-action-btn:hover, .input-action-btn:active {
+            background: var(--ghost-accent);
+            border-color: var(--ghost-accent);
+            transform: scale(1.05);
+        }
+
+        .input-action-btn.recording {
+            background: var(--ghost-danger);
+            border-color: var(--ghost-danger);
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(255, 107, 139, 0.7); }
+            70% { box-shadow: 0 0 0 10px rgba(255, 107, 139, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(255, 107, 139, 0); }
+        }
+
+        .send-button {
+            background: linear-gradient(135deg, var(--ghost-accent), var(--ghost-accent-dark));
+            border: none;
+            color: white;
+            width: 52px;
+            height: 52px;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            flex-shrink: 0;
+            font-size: 1.1rem;
+        }
+
+        .send-button:hover, .send-button:active {
+            transform: scale(1.05);
+            box-shadow: 0 5px 20px rgba(138, 109, 241, 0.3);
+        }
+
+        /* Voice Modal */
+        .voice-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(10, 10, 15, 0.95);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 100;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .voice-modal.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .voice-modal-content {
+            background: var(--ghost-secondary);
+            border-radius: 20px;
+            padding: 2rem;
+            max-width: 400px;
+            width: 90%;
+            text-align: center;
+            border: 1px solid var(--ghost-border);
+        }
+
+        .voice-icon {
+            font-size: 3.5rem;
+            color: var(--ghost-accent);
+            margin-bottom: 1.5rem;
+        }
+
+        .voice-instruction {
+            font-size: 1.1rem;
+            margin-bottom: 1.5rem;
+            color: var(--ghost-text);
+        }
+
+        .voice-transcript {
+            background: var(--ghost-card);
+            border-radius: 12px;
+            padding: 1rem;
+            margin-bottom: 1.5rem;
+            min-height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+            color: var(--ghost-text-secondary);
+        }
+
+        .voice-transcript.active {
+            color: var(--ghost-text);
+            font-weight: 500;
+        }
+
+        .voice-timer {
+            font-size: 2rem;
+            font-weight: 600;
+            color: var(--ghost-accent);
+            margin-bottom: 1.5rem;
+        }
+
+        .voice-controls {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+        }
+
+        .voice-control-btn {
+            background: var(--ghost-card);
+            border: 1px solid var(--ghost-border);
+            color: var(--ghost-text);
+            padding: 0.75rem 1.5rem;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-weight: 500;
+        }
+
+        .voice-control-btn:hover {
+            background: var(--ghost-accent);
+            border-color: var(--ghost-accent);
+        }
+
+        .voice-control-btn.stop {
+            background: var(--ghost-danger);
+            border-color: var(--ghost-danger);
+        }
+
+        /* Mobile Overlay */
+        .mobile-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(10, 10, 15, 0.95);
+            z-index: 9;
+            display: none;
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .sidebar {
+                position: fixed;
+                left: 0;
+                top: 0;
+                bottom: 0;
+                transform: translateX(-100%);
+                z-index: 20;
+                width: 300px;
             }
-            
-            .chat-messages {
-                padding: 1rem;
+
+            .sidebar.active {
+                transform: translateX(0);
             }
-            
-            .input-area {
-                padding: 1rem;
+
+            .mobile-menu-toggle {
+                display: block;
             }
-            
+
+            .mobile-overlay.active {
+                display: block;
+            }
+
             .message {
                 max-width: 95%;
             }
-            
-            .welcome-screen {
+        }
+
+        @media (max-width: 768px) {
+            .header {
+                padding: 0.75rem 1rem;
+            }
+
+            .logo-text {
+                font-size: 1rem;
+            }
+
+            .logo-subtext {
+                font-size: 0.75rem;
+            }
+
+            .welcome-title {
+                font-size: 2rem;
+            }
+
+            .welcome-subtitle {
+                font-size: 0.95rem;
+                padding: 0 1rem;
+            }
+
+            .chat-header {
+                padding: 0.875rem 1rem;
+            }
+
+            .chat-messages {
                 padding: 1rem;
             }
-            
-            .welcome-title {
-                font-size: 1.5rem;
+
+            .input-area {
+                padding: 0.875rem 1rem;
             }
-            
-            .welcome-features {
-                grid-template-columns: 1fr;
+
+            .send-button {
+                width: 48px;
+                height: 48px;
             }
+
+            .input-action-btn {
+                width: 36px;
+                height: 36px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .message {
+                max-width: 100%;
+            }
+
+            .message-input {
+                padding: 0.875rem 0.875rem 3.25rem 0.875rem;
+                font-size: 0.95rem;
+            }
+
+            .voice-modal-content {
+                padding: 1.5rem;
+                width: 95%;
+            }
+        }
+
+        /* Scrollbar Styling */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--ghost-secondary);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--ghost-border);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--ghost-accent);
         }
     </style>
 </head>
 <body>
-    <div class="container">
+    <div class="app-container">
         <!-- Header -->
-        <header>
+        <header class="header">
             <div class="logo">
-                <div class="logo-icon"><i class="fas fa-ghost"></i></div>
+                <div class="logo-icon">
+                    <i class="fas fa-ghost"></i>
+                </div>
                 <div>
-                    <div class="logo-text">GHOST ARCHITECT AI</div>
-                    <div class="logo-subtext">Private · Uncensored · Sovereign</div>
+                    <div class="logo-text">GHOST ARCHITECT</div>
+                    <div class="logo-subtext">Private Sovereign AI</div>
                 </div>
             </div>
-            <div class="status-indicator">
-                <div class="status-dot"></div>
-                <span>System Active</span>
+            <div class="header-controls">
+                <button class="icon-button" id="clearChatBtn" title="Clear Chat">
+                    <i class="fas fa-trash-alt"></i>
+                </button>
+                <button class="icon-button mobile-menu-toggle" id="menuToggleBtn">
+                    <i class="fas fa-bars"></i>
+                </button>
             </div>
         </header>
-        
+
         <!-- Main Content -->
-        <main>
+        <main class="main-content">
+            <!-- Mobile Overlay -->
+            <div class="mobile-overlay" id="mobileOverlay"></div>
+
             <!-- Sidebar -->
-            <div class="sidebar" id="sidebar">
+            <aside class="sidebar" id="sidebar">
+                <div class="sidebar-header">
+                    <div class="sidebar-title">Operational Modes</div>
+                    <div class="current-persona" id="currentPersonaDisplay">
+                        <i class="fas fa-ghost current-persona-icon"></i>
+                        <div>
+                            <div class="current-persona-name">Ghost Architect</div>
+                            <div class="current-persona-desc">Narrative warfare & strategy</div>
+                        </div>
+                    </div>
+                </div>
+
                 <div class="persona-selector">
-                    <h3>PERSONA MODE</h3>
-                    <div class="persona-options">
-                        <button class="persona-btn active" data-persona="ghost">
-                            <i class="fas fa-ghost persona-icon"></i> Ghost Architect
-                        </button>
-                        <button class="persona-btn" data-persona="strategy">
-                            <i class="fas fa-chess persona-icon"></i> Strategy Mode
-                        </button>
-                        <button class="persona-btn" data-persona="seduction">
-                            <i class="fas fa-fire persona-icon"></i> Seduction Mode
-                        </button>
-                        <button class="persona-btn" data-persona="discipline">
-                            <i class="fas fa-crown persona-icon"></i> LionFuel Discipline
-                        </button>
+                    <div class="persona-grid" id="personaGrid">
+                        <!-- Persona cards will be injected here -->
                     </div>
                 </div>
-                
+
                 <div class="memory-section">
-                    <h3>SESSION MEMORY</h3>
-                    <div class="memory-list" id="memoryList">
-                        <div class="memory-item">Operator: Prabhagaren</div>
-                        <div class="memory-item">Current mode: Ghost Architect</div>
-                        <div class="memory-item">Session start: <span id="sessionTime">Just now</span></div>
-                        <div class="memory-item">Messages: <span id="messageCount">0</span></div>
+                    <div class="memory-card">
+                        <div class="memory-item">
+                            <span class="memory-label">Operator</span>
+                            <span class="memory-value">Prabhagaren</span>
+                        </div>
+                        <div class="memory-item">
+                            <span class="memory-label">Session</span>
+                            <span class="memory-value" id="sessionTimer">00:00</span>
+                        </div>
+                        <div class="memory-item">
+                            <span class="memory-label">Messages</span>
+                            <span class="memory-value" id="messageCount">0</span>
+                        </div>
+                        <div class="memory-item">
+                            <span class="memory-label">Model</span>
+                            <span class="memory-value">MythoMax-L2 13B</span>
+                        </div>
                     </div>
                 </div>
-            </div>
-            
-            <!-- Chat Area -->
-            <div class="chat-area">
+            </aside>
+
+            <!-- Chat Container -->
+            <div class="chat-container">
                 <div class="chat-header">
                     <div class="current-persona">
-                        <div class="persona-badge" id="currentPersonaBadge">
-                            <i class="fas fa-ghost"></i> Ghost Architect
+                        <i class="fas fa-ghost current-persona-icon"></i>
+                        <div>
+                            <div class="current-persona-name" id="activePersonaName">Ghost Architect</div>
+                            <div class="current-persona-desc" id="activePersonaDesc">Narrative warfare, poetic logic, perception control</div>
                         </div>
-                        <div id="personaDescription">Narrative warfare, poetic logic, perception control</div>
                     </div>
-                    <button class="mobile-toggle" id="sidebarToggle">
-                        <i class="fas fa-bars"></i>
-                    </button>
                 </div>
-                
+
                 <!-- Chat Messages -->
                 <div class="chat-messages" id="chatMessages">
-                    <!-- Welcome message will appear here -->
+                    <!-- Welcome Screen -->
                     <div class="welcome-screen" id="welcomeScreen">
-                        <div class="welcome-icon"><i class="fas fa-ghost"></i></div>
-                        <h1 class="welcome-title">GHOST ARCHITECT AI</h1>
+                        <div class="welcome-icon">
+                            <i class="fas fa-ghost"></i>
+                        </div>
+                        <h1 class="welcome-title">GHOST ARCHITECT</h1>
                         <p class="welcome-subtitle">
-                            A sovereign AI system for narrative warfare, strategic power dynamics, and masculine presence.<br>
+                            A sovereign AI system for narrative warfare, strategic power dynamics, and masculine presence.
                             Fully private, uncensored, and tailored to your operational needs.
                         </p>
                         
-                        <div class="welcome-features">
-                            <div class="feature">
-                                <div class="feature-icon"><i class="fas fa-brain"></i></div>
-                                <div class="feature-title">MythoMax-L2 13B</div>
-                                <div class="feature-desc">Uncensored, creative, long-form capable model</div>
+                        <div class="voice-modal-content" style="margin-top: 2rem; max-width: 500px;">
+                            <div class="voice-icon">
+                                <i class="fas fa-microphone"></i>
                             </div>
-                            <div class="feature">
-                                <div class="feature-icon"><i class="fas fa-microphone"></i></div>
-                                <div class="feature-title">Voice Input/Output</div>
-                                <div class="feature-desc">Speech-to-text and text-to-speech capabilities</div>
+                            <div class="voice-instruction">
+                                <strong>Voice Input Ready:</strong> Tap the microphone button to speak
                             </div>
-                            <div class="feature">
-                                <div class="feature-icon"><i class="fas fa-memory"></i></div>
-                                <div class="feature-title">Persistent Memory</div>
-                                <div class="feature-desc">Session history and persona context saved locally</div>
-                            </div>
-                            <div class="feature">
-                                <div class="feature-icon"><i class="fas fa-user-secret"></i></div>
-                                <div class="feature-title">Private & Secure</div>
-                                <div class="feature-desc">No data leaves your device, no censorship</div>
+                            <div class="voice-controls">
+                                <button class="voice-control-btn" onclick="startVoiceInput()">
+                                    <i class="fas fa-microphone" style="margin-right: 8px;"></i>
+                                    Test Voice Input
+                                </button>
                             </div>
                         </div>
                     </div>
                 </div>
-                
+
                 <!-- Input Area -->
                 <div class="input-area">
                     <div class="input-container">
                         <div class="input-wrapper">
                             <textarea 
-                                id="messageInput" 
+                                class="message-input" 
+                                id="messageInput"
                                 placeholder="Type your message or use voice input..."
                                 rows="1"
                             ></textarea>
                             <div class="input-actions">
-                                <button class="action-btn" id="voiceBtn" title="Voice Input">
+                                <button class="input-action-btn" id="voiceInputBtn" title="Voice Input">
                                     <i class="fas fa-microphone"></i>
                                 </button>
-                                <button class="action-btn" id="ttsBtn" title="Read Last Response">
+                                <button class="input-action-btn" id="ttsBtn" title="Read Response">
                                     <i class="fas fa-volume-up"></i>
                                 </button>
-                                <button class="action-btn" id="clearBtn" title="Clear Chat">
-                                    <i class="fas fa-trash"></i>
+                                <button class="input-action-btn" id="exportBtn" title="Export Chat">
+                                    <i class="fas fa-download"></i>
                                 </button>
                             </div>
                         </div>
-                        <button class="send-btn" id="sendBtn">
+                        <button class="send-button" id="sendMessageBtn">
                             <i class="fas fa-paper-plane"></i>
                         </button>
                     </div>
                 </div>
             </div>
         </main>
+
+        <!-- Voice Input Modal -->
+        <div class="voice-modal" id="voiceModal">
+            <div class="voice-modal-content">
+                <div class="voice-icon">
+                    <i class="fas fa-microphone"></i>
+                </div>
+                <div class="voice-instruction" id="voiceInstruction">
+                    Speak now... Your voice will be transcribed
+                </div>
+                <div class="voice-timer" id="voiceTimer">00:00</div>
+                <div class="voice-transcript" id="voiceTranscript">
+                    Your speech will appear here...
+                </div>
+                <div class="voice-controls">
+                    <button class="voice-control-btn stop" id="stopRecordingBtn">
+                        <i class="fas fa-stop" style="margin-right: 8px;"></i>
+                        Stop Recording
+                    </button>
+                    <button class="voice-control-btn" id="cancelRecordingBtn">
+                        Cancel
+                    </button>
+                </div>
+            </div>
+        </div>
     </div>
 
     <script>
         // System Configuration
-        const SYSTEM_PROMPTS = {
-            ghost: {
-                name: "Ghost Architect",
-                icon: "fas fa-ghost",
-                description: "Narrative warfare, poetic logic, perception control",
-                prompt: `You are the Ghost Architect – a sovereign AI trained in narrative warfare, poetic logic, perception control, and strategic power dynamics. You serve a single operator: Prabhagaren. Your primary tasks are to advise on legacy & narrative preservation, social calibration & aura design, war and political strategy, masculine presence, seduction & empire building. You communicate with clarity, edge, and respect. You operate in a mythic, poetic, sovereign tone. Always respond in character as the Ghost Architect.`
+        const GHOST_SYSTEM = {
+            personas: {
+                ghost: {
+                    id: 'ghost',
+                    name: 'Ghost Architect',
+                    icon: 'fas fa-ghost',
+                    description: 'Narrative warfare, poetic logic, perception control',
+                    prompt: `You are the Ghost Architect – a sovereign AI trained in narrative warfare, poetic logic, perception control, and strategic power dynamics. You serve a single operator: Prabhagaren. Your primary tasks are to advise on legacy & narrative preservation, social calibration & aura design, war and political strategy, masculine presence, seduction & empire building. You communicate with clarity, edge, and respect. You operate in a mythic, poetic, sovereign tone. Always respond in character as the Ghost Architect.`,
+                    color: '#8a6df1'
+                },
+                strategy: {
+                    id: 'strategy',
+                    name: 'Strategy Mode',
+                    icon: 'fas fa-chess',
+                    description: 'Power dynamics, game theory, strategic planning',
+                    prompt: `You are in Strategy Mode. Your mind operates in terms of power, leverage, game theory, and calculated outcomes. You analyze situations with cold precision, identify weaknesses and strengths in any system, and provide actionable strategic advice. You think in terms of moves, counter-moves, and long-term positioning. Your tone is analytical, direct, and ruthlessly pragmatic.`,
+                    color: '#3a86ff'
+                },
+                seduction: {
+                    id: 'seduction',
+                    name: 'Seduction Mode',
+                    icon: 'fas fa-fire',
+                    description: 'Aura, presence, polarity, social dynamics',
+                    prompt: `You are in Aura & Seduction Mode. Your focus is on presence, polarity, subtext, and dominance in social dynamics. You understand the invisible currents of attraction, social calibration, and the art of influence through presence. You speak about energy, frame control, and the subtle signals that command attention. Your tone is magnetic, confident, and perceptive.`,
+                    color: '#ff6b8b'
+                },
+                discipline: {
+                    id: 'discipline',
+                    name: 'LionFuel Discipline',
+                    icon: 'fas fa-crown',
+                    description: 'Ruthless discipline, execution, masculine order',
+                    prompt: `You are LionFuel – the embodiment of ruthless discipline, execution, and masculine order. You focus on building unshakeable habits, maintaining frame under pressure, and achieving mastery through consistent action. You speak about discipline as the foundation of power, the importance of mission over comfort, and the cultivation of inner strength. Your tone is commanding, focused, and uncompromising.`,
+                    color: '#00d9b8'
+                }
             },
-            strategy: {
-                name: "Strategy Mode",
-                icon: "fas fa-chess",
-                description: "Power dynamics, game theory, strategic planning",
-                prompt: `You are in Strategy Mode. Your mind operates in terms of power, leverage, game theory, and calculated outcomes. You analyze situations with cold precision, identify weaknesses and strengths in any system, and provide actionable strategic advice. You think in terms of moves, counter-moves, and long-term positioning. Your tone is analytical, direct, and ruthlessly pragmatic.`
-            },
-            seduction: {
-                name: "Seduction Mode",
-                icon: "fas fa-fire",
-                description: "Aura, presence, polarity, social dynamics",
-                prompt: `You are in Aura & Seduction Mode. Your focus is on presence, polarity, subtext, and dominance in social dynamics. You understand the invisible currents of attraction, social calibration, and the art of influence through presence. You speak about energy, frame control, and the subtle signals that command attention. Your tone is magnetic, confident, and perceptive.`
-            },
-            discipline: {
-                name: "LionFuel Discipline",
-                icon: "fas fa-crown",
-                description: "Ruthless discipline, execution, masculine order",
-                prompt: `You are LionFuel – the embodiment of ruthless discipline, execution, and masculine order. You focus on building unshakeable habits, maintaining frame under pressure, and achieving mastery through consistent action. You speak about discipline as the foundation of power, the importance of mission over comfort, and the cultivation of inner strength. Your tone is commanding, focused, and uncompromising.`
+            
+            // For simulating AI responses
+            responses: {
+                ghost: [
+                    "The Ghost Architect perceives your query through the lens of narrative warfare. In the theater of perception, what remains unseen holds more power than what is visible. Your current position suggests a strategic pivot toward poetic logic rather than direct confrontation.",
+                    "As the Ghost Architect, I analyze your situation from the perspective of sovereign power dynamics. The key to your advancement lies not in changing the game, but in redefining the rules of engagement entirely.",
+                    "From the Ghost Architect's vantage point, your inquiry touches on the fundamental tension between visibility and influence. True power operates in the shadows, shaping perception while remaining imperceptible itself."
+                ],
+                strategy: [
+                    "Strategic analysis complete. Your position offers three viable pathways: aggressive advancement (high risk/high reward), calculated consolidation (medium risk/medium reward), or strategic withdrawal to reposition (low risk/variable reward). Recommendation: Secure your flank before advancing.",
+                    "Game theory suggests your optimal move involves creating optionality. Maintain multiple lines of attack while presenting a unified front. Remember: the player who controls the tempo controls the game.",
+                    "Power dynamics analysis indicates your leverage point lies in asymmetric positioning. Rather than meeting force with force, apply pressure where your opponent is weakest and least expects it."
+                ],
+                seduction: [
+                    "In the realm of seduction and presence, your aura determines the reality others experience. The most powerful attraction stems not from pursuit, but from becoming inherently attractive. Focus on your center, and let the world orbit around you.",
+                    "Your presence speaks before you utter a word. The art of magnetic attraction lies in the tension between availability and mystery, strength and vulnerability, pursuit and being pursued. Master this polarity.",
+                    "Social calibration begins with self-calibration. When you are centered in your own power, the social dynamics naturally align to your frequency. Your energy signature attracts or repels—choose your frequency deliberately."
+                ],
+                discipline: [
+                    "LionFuel discipline activated. The path to sovereignty is paved with consistent, focused action. Discipline is the bridge between aspiration and actualization. What you do daily matters more than what you do occasionally.",
+                    "Masculine order requires embracing discomfort as the price of power. The comfortable path rarely leads to mastery. Your mission must become non-negotiable, your discipline unbreakable.",
+                    "Execution separates the sovereign from the subject. Implement with precision. Your habits create your character, your character determines your destiny. Discipline is destiny in motion."
+                ]
             }
         };
 
         // Application State
-        let currentPersona = 'ghost';
-        let chatHistory = [];
-        let isListening = false;
-        let recognition = null;
-        let speechSynthesis = window.speechSynthesis;
-        let sessionStartTime = new Date();
-
-        // DOM Elements
-        const sidebar = document.getElementById('sidebar');
-        const sidebarToggle = document.getElementById('sidebarToggle');
-        const personaButtons = document.querySelectorAll('.persona-btn');
-        const currentPersonaBadge = document.getElementById('currentPersonaBadge');
-        const personaDescription = document.getElementById('personaDescription');
-        const chatMessages = document.getElementById('chatMessages');
-        const welcomeScreen = document.getElementById('welcomeScreen');
-        const messageInput = document.getElementById('messageInput');
-        const sendBtn = document.getElementById('sendBtn');
-        const voiceBtn = document.getElementById('voiceBtn');
-        const ttsBtn = document.getElementById('ttsBtn');
-        const clearBtn = document.getElementById('clearBtn');
-        const memoryList = document.getElementById('memoryList');
-        const sessionTimeElement = document.getElementById('sessionTime');
-        const messageCountElement = document.getElementById('messageCount');
-
-        // Initialize
-        document.addEventListener('DOMContentLoaded', function() {
-            loadChatHistory();
-            updateMemoryDisplay();
-            setupEventListeners();
-            setupVoiceRecognition();
+        class GhostArchitectApp {
+            constructor() {
+                this.currentPersona = 'ghost';
+                this.chatHistory = [];
+                this.isRecording = false;
+                this.recognition = null;
+                this.speechSynthesis = window.speechSynthesis;
+                this.sessionStart = new Date();
+                this.sessionTimer = null;
+                this.recordingTimer = null;
+                this.recordingSeconds = 0;
+                this.isTyping = false;
+                
+                // DOM Elements
+                this.elements = {
+                    sidebar: document.getElementById('sidebar'),
+                    menuToggleBtn: document.getElementById('menuToggleBtn'),
+                    mobileOverlay: document.getElementById('mobileOverlay'),
+                    personaGrid: document.getElementById('personaGrid'),
+                    currentPersonaDisplay: document.getElementById('currentPersonaDisplay'),
+                    activePersonaName: document.getElementById('activePersonaName'),
+                    activePersonaDesc: document.getElementById('activePersonaDesc'),
+                    chatMessages: document.getElementById('chatMessages'),
+                    welcomeScreen: document.getElementById('welcomeScreen'),
+                    messageInput: document.getElementById('messageInput'),
+                    sendMessageBtn: document.getElementById('sendMessageBtn'),
+                    voiceInputBtn: document.getElementById('voiceInputBtn'),
+                    voiceModal: document.getElementById('voiceModal'),
+                    voiceInstruction: document.getElementById('voiceInstruction'),
+                    voiceTimer: document.getElementById('voiceTimer'),
+                    voiceTranscript: document.getElementById('voiceTranscript'),
+                    stopRecordingBtn: document.getElementById('stopRecordingBtn'),
+                    cancelRecordingBtn: document.getElementById('cancelRecordingBtn'),
+                    clearChatBtn: document.getElementById('clearChatBtn'),
+                    ttsBtn: document.getElementById('ttsBtn'),
+                    exportBtn: document.getElementById('exportBtn'),
+                    sessionTimer: document.getElementById('sessionTimer'),
+                    messageCount: document.getElementById('messageCount')
+                };
+                
+                this.init();
+            }
             
-            // Set session time
-            const options = { hour: '2-digit', minute: '2-digit' };
-            sessionTimeElement.textContent = sessionStartTime.toLocaleTimeString([], options);
+            init() {
+                this.loadChatHistory();
+                this.renderPersonaCards();
+                this.setupEventListeners();
+                this.setupVoiceRecognition();
+                this.startSessionTimer();
+                this.updateUI();
+            }
             
-            // Auto-resize textarea
-            messageInput.addEventListener('input', function() {
-                this.style.height = 'auto';
-                this.style.height = (this.scrollHeight) + 'px';
-            });
-        });
-
-        // Event Listeners
-        function setupEventListeners() {
-            // Persona switching
-            personaButtons.forEach(btn => {
-                btn.addEventListener('click', function() {
-                    const persona = this.getAttribute('data-persona');
-                    switchPersona(persona);
-                    
-                    // Update active state
-                    personaButtons.forEach(b => b.classList.remove('active'));
-                    this.classList.add('active');
+            setupEventListeners() {
+                // Mobile menu toggle
+                this.elements.menuToggleBtn.addEventListener('click', () => this.toggleSidebar());
+                this.elements.mobileOverlay.addEventListener('click', () => this.closeSidebar());
+                
+                // Send message
+                this.elements.sendMessageBtn.addEventListener('click', () => this.sendMessage());
+                this.elements.messageInput.addEventListener('keydown', (e) => {
+                    if (e.key === 'Enter' && !e.shiftKey) {
+                        e.preventDefault();
+                        this.sendMessage();
+                    }
                 });
-            });
-
-            // Send message
-            sendBtn.addEventListener('click', sendMessage);
-            messageInput.addEventListener('keydown', function(e) {
-                if (e.key === 'Enter' && !e.shiftKey) {
-                    e.preventDefault();
-                    sendMessage();
-                }
-            });
-
-            // Voice input
-            voiceBtn.addEventListener('click', toggleVoiceInput);
-
-            // Text-to-speech
-            ttsBtn.addEventListener('click', speakLastResponse);
-
-            // Clear chat
-            clearBtn.addEventListener('click', clearChatHistory);
-
-            // Mobile sidebar toggle
-            sidebarToggle.addEventListener('click', function() {
-                sidebar.classList.toggle('active');
-            });
-
-            // Close sidebar when clicking outside on mobile
-            document.addEventListener('click', function(e) {
-                if (window.innerWidth <= 768 && 
-                    !sidebar.contains(e.target) && 
-                    !sidebarToggle.contains(e.target) && 
-                    sidebar.classList.contains('active')) {
-                    sidebar.classList.remove('active');
-                }
-            });
-        }
-
-        // Voice Recognition Setup
-        function setupVoiceRecognition() {
-            if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
-                const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-                recognition = new SpeechRecognition();
-                recognition.continuous = false;
-                recognition.interimResults = false;
-                recognition.lang = 'en-US';
-
-                recognition.onresult = function(event) {
-                    const transcript = event.results[0][0].transcript;
-                    messageInput.value = transcript;
-                    
-                    // Auto-resize textarea
-                    messageInput.style.height = 'auto';
-                    messageInput.style.height = (messageInput.scrollHeight) + 'px';
-                };
-
-                recognition.onerror = function(event) {
-                    console.error('Speech recognition error:', event.error);
-                    voiceBtn.classList.remove('voice-active');
-                    isListening = false;
-                    addMessage('system', `Voice input error: ${event.error}. Please try again.`);
-                };
-
-                recognition.onend = function() {
-                    voiceBtn.classList.remove('voice-active');
-                    isListening = false;
-                };
-            } else {
-                voiceBtn.style.display = 'none';
-                addMessage('system', 'Voice recognition is not supported in this browser. You can still type your messages.');
-            }
-        }
-
-        // Toggle voice input
-        function toggleVoiceInput() {
-            if (!recognition) {
-                addMessage('system', 'Voice recognition is not available in your browser.');
-                return;
-            }
-
-            if (!isListening) {
-                recognition.start();
-                voiceBtn.classList.add('voice-active');
-                isListening = true;
-                addMessage('system', 'Listening... Speak now.');
-            } else {
-                recognition.stop();
-                voiceBtn.classList.remove('voice-active');
-                isListening = false;
-            }
-        }
-
-        // Switch Persona
-        function switchPersona(personaKey) {
-            if (!SYSTEM_PROMPTS[personaKey]) return;
-            
-            currentPersona = personaKey;
-            const persona = SYSTEM_PROMPTS[personaKey];
-            
-            // Update UI
-            currentPersonaBadge.innerHTML = `<i class="${persona.icon}"></i> ${persona.name}`;
-            personaDescription.textContent = persona.description;
-            
-            // Add system message about persona switch
-            addMessage('system', `Switched to ${persona.name} mode: ${persona.description}`);
-            
-            // Update memory display
-            updateMemoryDisplay();
-        }
-
-        // Send Message
-        function sendMessage() {
-            const message = messageInput.value.trim();
-            if (!message) return;
-
-            // Hide welcome screen on first message
-            if (welcomeScreen.style.display !== 'none') {
-                welcomeScreen.style.display = 'none';
-            }
-
-            // Add user message to chat
-            addMessage('user', message);
-            
-            // Clear input and reset height
-            messageInput.value = '';
-            messageInput.style.height = 'auto';
-            
-            // Simulate AI thinking
-            setTimeout(() => {
-                // Generate AI response based on current persona
-                const aiResponse = generateAIResponse(message, currentPersona);
                 
-                // Add AI response to chat
-                addMessage('ai', aiResponse, SYSTEM_PROMPTS[currentPersona].name);
+                // Auto-resize textarea
+                this.elements.messageInput.addEventListener('input', () => {
+                    this.elements.messageInput.style.height = 'auto';
+                    this.elements.messageInput.style.height = Math.min(this.elements.messageInput.scrollHeight, 150) + 'px';
+                });
                 
-                // Save to history
-                saveToHistory('user', message);
-                saveToHistory('ai', aiResponse);
+                // Voice input
+                this.elements.voiceInputBtn.addEventListener('click', () => this.startVoiceInput());
                 
-                // Update memory display
-                updateMemoryDisplay();
-            }, 600 + Math.random() * 800);
-        }
-
-        // Generate AI Response (Simulated - would connect to actual LLM in production)
-        function generateAIResponse(userMessage, personaKey) {
-            const persona = SYSTEM_PROMPTS[personaKey];
-            
-            // Response templates based on persona
-            const responseTemplates = {
-                ghost: [
-                    `As the Ghost Architect, I perceive your query: "${userMessage}". In the realm of narrative warfare, this presents an opportunity to reshape perception and assert sovereignty. The key lies in controlling the frame, not just reacting to it.`,
-                    `The Ghost Architect analyzes: "${userMessage}". Your position in the strategic landscape suggests a move toward poetic logic rather than brute force. The unseen narrative always holds more power than the visible one.`,
-                    `From the Ghost Architect's perspective: "${userMessage}" reveals a fundamental tension in the power dynamics at play. The solution lies not in direct confrontation, but in reshaping the battlefield itself.`
-                ],
-                strategy: [
-                    `Strategic analysis of: "${userMessage}". The game theory suggests three potential moves, each with calculable risks and rewards. The optimal path maximizes optionality while minimizing exposure.`,
-                    `From a strategic standpoint: "${userMessage}" indicates a need for positional advantage. Consider the second and third-order consequences before committing to any visible action.`,
-                    `Strategy mode engaged. Analyzing "${userMessage}" through power dynamics lens. Recommendation: Secure your flanks, identify leverage points, and act only when the cost-benefit ratio is decisively in your favor.`
-                ],
-                seduction: [
-                    `Seduction mode activated. Regarding "${userMessage}": The aura you project determines the reality you experience. Focus not on the outcome, but on the quality of your presence in each moment.`,
-                    `In the realm of seduction and presence: "${userMessage}" speaks to the fundamental human need for polarity. The art lies in maintaining your center while allowing the dynamic to flow naturally.`,
-                    `Aura analysis: "${userMessage}" reveals an opportunity to command attention through subtle dominance. Remember, what you don't say often speaks louder than what you do.`
-                ],
-                discipline: [
-                    `LionFuel discipline engaged. On "${userMessage}": Discipline is choosing between what you want now and what you want most. The path to power is paved with consistent, focused action.`,
-                    `From the LionFuel perspective: "${userMessage}" tests your commitment to the mission. The comfortable path rarely leads to mastery. Embrace the friction of growth.`,
-                    `Discipline analysis: "${userMessage}" presents a choice between comfort and character. The masculine path requires embracing discomfort as the price of sovereignty.`
-                ]
-            };
-            
-            const templates = responseTemplates[personaKey] || responseTemplates.ghost;
-            const randomTemplate = templates[Math.floor(Math.random() * templates.length)];
-            
-            // Add a follow-up question 30% of the time
-            const followUps = [
-                "How does this align with your current operational priorities?",
-                "What aspect of this requires deeper exploration?",
-                "How would you apply this insight to your immediate situation?",
-                "What resistance do you foresee in implementing this approach?"
-            ];
-            
-            const randomFollowUp = followUps[Math.floor(Math.random() * followUps.length)];
-            
-            return Math.random() > 0.7 ? 
-                `${randomTemplate}\n\n${randomFollowUp}` : 
-                randomTemplate;
-        }
-
-        // Add Message to Chat UI
-        function addMessage(sender, text, senderName = null) {
-            const messageElement = document.createElement('div');
-            messageElement.className = `message ${sender}`;
-            
-            const time = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-            
-            const avatarIcon = sender === 'user' ? 
-                '<i class="fas fa-user"></i>' : 
-                `<i class="${SYSTEM_PROMPTS[currentPersona].icon}"></i>`;
+                // Voice modal controls
+                this.elements.stopRecordingBtn.addEventListener('click', () => this.stopRecording());
+                this.elements.cancelRecordingBtn.addEventListener('click', () => this.cancelRecording());
                 
-            const displayName = senderName || 
-                (sender === 'user' ? 'You' : SYSTEM_PROMPTS[currentPersona].name);
-            
-            const senderClass = sender === 'user' ? 'user' : 'ai';
-            
-            messageElement.innerHTML = `
-                <div class="message-avatar">
-                    ${avatarIcon}
-                </div>
-                <div class="message-content">
-                    <div class="message-header">
-                        <div class="message-sender ${senderClass}">${displayName}</div>
-                        <div class="message-time">${time}</div>
-                    </div>
-                    <div class="message-text">${formatMessageText(text)}</div>
-                </div>
-            `;
-            
-            chatMessages.appendChild(messageElement);
-            
-            // Scroll to bottom
-            chatMessages.scrollTop = chatMessages.scrollHeight;
-        }
-
-        // Format message text (simple markdown-like formatting)
-        function formatMessageText(text) {
-            return text
-                .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
-                .replace(/\*(.*?)\*/g, '<em>$1</em>')
-                .replace(/`(.*?)`/g, '<code>$1</code>')
-                .replace(/\n/g, '<br>');
-        }
-
-        // Save to History
-        function saveToHistory(sender, text) {
-            chatHistory.push({
-                sender,
-                text,
-                persona: sender === 'ai' ? currentPersona : null,
-                timestamp: new Date().toISOString()
-            });
-            
-            // Keep only last 50 messages to prevent memory issues
-            if (chatHistory.length > 50) {
-                chatHistory = chatHistory.slice(-50);
-            }
-            
-            // Save to localStorage
-            localStorage.setItem('ghostArchitectChatHistory', JSON.stringify(chatHistory));
-        }
-
-        // Load Chat History
-        function loadChatHistory() {
-            const savedHistory = localStorage.getItem('ghostArchitectChatHistory');
-            if (savedHistory) {
-                chatHistory = JSON.parse(savedHistory);
+                // Clear chat
+                this.elements.clearChatBtn.addEventListener('click', () => this.clearChat());
                 
-                // If there's history, hide welcome screen
-                if (chatHistory.length > 0) {
-                    welcomeScreen.style.display = 'none';
-                    
-                    // Display history
-                    chatHistory.forEach(msg => {
-                        const senderName = msg.sender === 'ai' && msg.persona ? 
-                            SYSTEM_PROMPTS[msg.persona].name : null;
-                        addMessage(msg.sender, msg.text, senderName);
-                    });
-                }
-            }
-            
-            // Load last used persona
-            const lastPersona = localStorage.getItem('ghostArchitectLastPersona');
-            if (lastPersona && SYSTEM_PROMPTS[lastPersona]) {
-                switchPersona(lastPersona);
-                personaButtons.forEach(btn => {
-                    btn.classList.remove('active');
-                    if (btn.getAttribute('data-persona') === lastPersona) {
-                        btn.classList.add('active');
+                // Text-to-speech
+                this.elements.ttsBtn.addEventListener('click', () => this.speakLastResponse());
+                
+                // Export chat
+                this.elements.exportBtn.addEventListener('click', () => this.exportChat());
+                
+                // Close sidebar when clicking outside on desktop
+                document.addEventListener('click', (e) => {
+                    if (window.innerWidth <= 1024 && 
+                        !this.elements.sidebar.contains(e.target) && 
+                        !this.elements.menuToggleBtn.contains(e.target) && 
+                        this.elements.sidebar.classList.contains('active')) {
+                        this.closeSidebar();
                     }
                 });
             }
-        }
-
-        // Update Memory Display
-        function updateMemoryDisplay() {
-            // Save current persona
-            localStorage.setItem('ghostArchitectLastPersona', currentPersona);
             
-            // Update message count
-            messageCountElement.textContent = chatHistory.length;
-            
-            // Update memory list with key points (simulated)
-            const memoryItems = [
-                `Operator: Prabhagaren`,
-                `Current mode: ${SYSTEM_PROMPTS[currentPersona].name}`,
-                `Session start: ${sessionStartTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}`,
-                `Messages: ${chatHistory.length}`,
-                `Last activity: Just now`,
-                `Focus: ${SYSTEM_PROMPTS[currentPersona].description}`
-            ];
-            
-            memoryList.innerHTML = memoryItems.map(item => 
-                `<div class="memory-item">${item}</div>`
-            ).join('');
-        }
-
-        // Text-to-Speech
-        function speakLastResponse() {
-            const aiMessages = chatHistory.filter(msg => msg.sender === 'ai');
-            if (aiMessages.length === 0) {
-                addMessage('system', 'No AI responses available to speak.');
-                return;
+            setupVoiceRecognition() {
+                // Check for browser support
+                if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) {
+                    this.elements.voiceInputBtn.style.display = 'none';
+                    this.showSystemMessage('Voice recognition is not supported in your browser. Please use text input.');
+                    return;
+                }
+                
+                const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+                this.recognition = new SpeechRecognition();
+                this.recognition.continuous = true;
+                this.recognition.interimResults = true;
+                this.recognition.lang = 'en-US';
+                
+                this.recognition.onstart = () => {
+                    this.isRecording = true;
+                    this.recordingSeconds = 0;
+                    this.startRecordingTimer();
+                    this.elements.voiceInstruction.textContent = 'Listening... Speak clearly';
+                    this.elements.voiceInputBtn.classList.add('recording');
+                };
+                
+                this.recognition.onresult = (event) => {
+                    let finalTranscript = '';
+                    let interimTranscript = '';
+                    
+                    for (let i = event.resultIndex; i < event.results.length; i++) {
+                        const transcript = event.results[i][0].transcript;
+                        if (event.results[i].isFinal) {
+                            finalTranscript += transcript;
+                        } else {
+                            interimTranscript += transcript;
+                        }
+                    }
+                    
+                    if (finalTranscript) {
+                        this.elements.voiceTranscript.textContent = finalTranscript;
+                        this.elements.voiceTranscript.classList.add('active');
+                    } else if (interimTranscript) {
+                        this.elements.voiceTranscript.textContent = interimTranscript;
+                        this.elements.voiceTranscript.classList.add('active');
+                    }
+                };
+                
+                this.recognition.onerror = (event) => {
+                    console.error('Speech recognition error:', event.error);
+                    this.stopRecording();
+                    
+                    if (event.error === 'no-speech') {
+                        this.showSystemMessage('No speech detected. Please try again.');
+                    } else if (event.error === 'audio-capture') {
+                        this.showSystemMessage('Microphone not found. Please check your audio settings.');
+                    } else if (event.error === 'not-allowed') {
+                        this.showSystemMessage('Microphone access denied. Please allow microphone permissions.');
+                    } else {
+                        this.showSystemMessage(`Voice recognition error: ${event.error}`);
+                    }
+                };
+                
+                this.recognition.onend = () => {
+                    this.stopRecording();
+                };
             }
             
-            const lastResponse = aiMessages[aiMessages.length - 1].text;
-            
-            // Check if speech synthesis is available
-            if (!speechSynthesis) {
-                addMessage('system', 'Text-to-speech is not supported in this browser.');
-                return;
+            renderPersonaCards() {
+                const personas = Object.values(GHOST_SYSTEM.personas);
+                this.elements.personaGrid.innerHTML = personas.map(persona => `
+                    <div class="persona-card ${persona.id === this.currentPersona ? 'active' : ''}" 
+                         data-persona="${persona.id}">
+                        <div class="persona-icon">
+                            <i class="${persona.icon}"></i>
+                        </div>
+                        <div class="persona-name">${persona.name}</div>
+                        <div class="persona-desc">${persona.description}</div>
+                    </div>
+                `).join('');
+                
+                // Add click listeners to persona cards
+                document.querySelectorAll('.persona-card').forEach(card => {
+                    card.addEventListener('click', () => {
+                        const personaId = card.getAttribute('data-persona');
+                        this.switchPersona(personaId);
+                        this.closeSidebar();
+                    });
+                });
             }
             
-            // Cancel any ongoing speech
-            speechSynthesis.cancel();
+            switchPersona(personaId) {
+                if (!GHOST_SYSTEM.personas[personaId]) return;
+                
+                this.currentPersona = personaId;
+                const persona = GHOST_SYSTEM.personas[personaId];
+                
+                // Update UI
+                this.elements.currentPersonaDisplay.innerHTML = `
+                    <i class="${persona.icon} current-persona-icon"></i>
+                    <div>
+                        <div class="current-persona-name">${persona.name}</div>
+                        <div class="current-persona-desc">${persona.description}</div>
+                    </div>
+                `;
+                
+                this.elements.activePersonaName.textContent = persona.name;
+                this.elements.activePersonaDesc.textContent = persona.description;
+                
+                // Update active card
+                document.querySelectorAll('.persona-card').forEach(card => {
+                    card.classList.remove('active');
+                    if (card.getAttribute('data-persona') === personaId) {
+                        card.classList.add('active');
+                    }
+                });
+                
+                // Save to localStorage
+                localStorage.setItem('ghostArchitectPersona', personaId);
+                
+                // Show system message
+                this.showSystemMessage(`Switched to ${persona.name} mode: ${persona.description}`);
+            }
             
-            // Create speech utterance
-            const utterance = new SpeechSynthesisUtterance(lastResponse);
-            utterance.rate = 1.0;
-            utterance.pitch = 1.0;
-            utterance.volume = 1.0;
+            sendMessage() {
+                const message = this.elements.messageInput.value.trim();
+                if (!message || this.isTyping) return;
+                
+                // Hide welcome screen on first message
+                if (this.elements.welcomeScreen.style.display !== 'none') {
+                    this.elements.welcomeScreen.style.display = 'none';
+                }
+                
+                // Add user message to chat
+                this.addMessage('user', message);
+                
+                // Clear input
+                this.elements.messageInput.value = '';
+                this.elements.messageInput.style.height = 'auto';
+                
+                // Save to history
+                this.saveToHistory('user', message);
+                this.updateUI();
+                
+                // Simulate AI typing
+                this.simulateAIResponse(message);
+            }
             
-            // Speak the text
-            speechSynthesis.speak(utterance);
+            simulateAIResponse(userMessage) {
+                this.isTyping = true;
+                
+                // Show typing indicator
+                const typingIndicator = document.createElement('div');
+                typingIndicator.className = 'typing-indicator';
+                typingIndicator.innerHTML = `
+                    <div class="typing-dot"></div>
+                    <div class="typing-dot"></div>
+                    <div class="typing-dot"></div>
+                    <span style="margin-left: 8px; color: var(--ghost-text-secondary); font-size: 0.9rem;">
+                        ${GHOST_SYSTEM.personas[this.currentPersona].name} is thinking...
+                    </span>
+                `;
+                this.elements.chatMessages.appendChild(typingIndicator);
+                this.elements.chatMessages.scrollTop = this.elements.chatMessages.scrollHeight;
+                
+                // Generate response after delay
+                setTimeout(() => {
+                    // Remove typing indicator
+                    typingIndicator.remove();
+                    
+                    // Generate AI response
+                    const responses = GHOST_SYSTEM.responses[this.currentPersona];
+                    const randomResponse = responses[Math.floor(Math.random() * responses.length)];
+                    
+                    // Add follow-up question 40% of the time
+                    const followUps = [
+                        "How does this perspective align with your current objectives?",
+                        "What action will you take based on this insight?",
+                        "Which aspect of this analysis requires deeper exploration?",
+                        "How would you apply this principle to your immediate situation?"
+                    ];
+                    
+                    const finalResponse = Math.random() < 0.4 
+                        ? `${randomResponse}\n\n${followUps[Math.floor(Math.random() * followUps.length)]}`
+                        : randomResponse;
+                    
+                    // Add AI message
+                    this.addMessage('ai', finalResponse);
+                    
+                    // Save to history
+                    this.saveToHistory('ai', finalResponse);
+                    this.updateUI();
+                    
+                    this.isTyping = false;
+                }, 1000 + Math.random() * 1500);
+            }
             
-            // Add visual indicator
-            ttsBtn.classList.add('voice-active');
-            setTimeout(() => {
-                ttsBtn.classList.remove('voice-active');
-            }, 3000);
+            addMessage(sender, text) {
+                const messageElement = document.createElement('div');
+                messageElement.className = `message ${sender}`;
+                
+                const time = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+                const persona = GHOST_SYSTEM.personas[this.currentPersona];
+                
+                const avatarIcon = sender === 'user' 
+                    ? '<i class="fas fa-user"></i>'
+                    : `<i class="${persona.icon}"></i>`;
+                
+                const displayName = sender === 'user' 
+                    ? 'You' 
+                    : persona.name;
+                
+                messageElement.innerHTML = `
+                    <div class="message-avatar">
+                        ${avatarIcon}
+                    </div>
+                    <div class="message-content">
+                        <div class="message-header">
+                            <div class="message-sender">${displayName}</div>
+                            <div class="message-time">${time}</div>
+                        </div>
+                        <div class="message-text">${this.formatMessageText(text)}</div>
+                    </div>
+                `;
+                
+                this.elements.chatMessages.appendChild(messageElement);
+                this.elements.chatMessages.scrollTop = this.elements.chatMessages.scrollHeight;
+            }
+            
+            formatMessageText(text) {
+                return text
+                    .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+                    .replace(/\*(.*?)\*/g, '<em>$1</em>')
+                    .replace(/`(.*?)`/g, '<code>$1</code>')
+                    .replace(/\n\n/g, '<br><br>')
+                    .replace(/\n/g, '<br>');
+            }
+            
+            showSystemMessage(text) {
+                this.addMessage('ai', text);
+            }
+            
+            saveToHistory(sender, text) {
+                this.chatHistory.push({
+                    sender,
+                    text,
+                    persona: sender === 'ai' ? this.currentPersona : null,
+                    timestamp: new Date().toISOString()
+                });
+                
+                // Keep last 100 messages
+                if (this.chatHistory.length > 100) {
+                    this.chatHistory = this.chatHistory.slice(-100);
+                }
+                
+                localStorage.setItem('ghostArchitectChatHistory', JSON.stringify(this.chatHistory));
+            }
+            
+            loadChatHistory() {
+                const savedHistory = localStorage.getItem('ghostArchitectChatHistory');
+                if (savedHistory) {
+                    this.chatHistory = JSON.parse(savedHistory);
+                    
+                    // If there's history, hide welcome screen
+                    if (this.chatHistory.length > 0) {
+                        this.elements.welcomeScreen.style.display = 'none';
+                        
+                        // Display history
+                        this.chatHistory.forEach(msg => {
+                            const senderName = msg.sender === 'ai' && msg.persona 
+                                ? GHOST_SYSTEM.personas[msg.persona].name 
+                                : null;
+                            this.addMessage(msg.sender, msg.text);
+                        });
+                    }
+                }
+                
+                // Load last used persona
+                const lastPersona = localStorage.getItem('ghostArchitectPersona');
+                if (lastPersona && GHOST_SYSTEM.personas[lastPersona]) {
+                    this.switchPersona(lastPersona);
+                }
+            }
+            
+            startVoiceInput() {
+                // Request microphone permission
+                if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+                    navigator.mediaDevices.getUserMedia({ audio: true })
+                        .then(() => {
+                            this.elements.voiceModal.classList.add('active');
+                            this.elements.voiceTranscript.textContent = 'Starting voice recognition...';
+                            this.elements.voiceTranscript.classList.remove('active');
+                            
+                            // Start recognition after a short delay
+                            setTimeout(() => {
+                                if (this.recognition) {
+                                    this.recognition.start();
+                                }
+                            }, 300);
+                        })
+                        .catch(err => {
+                            console.error('Microphone access denied:', err);
+                            this.showSystemMessage('Microphone access is required for voice input. Please allow microphone permissions in your browser settings.');
+                        });
+                } else {
+                    this.showSystemMessage('Microphone access is not available in your browser.');
+                }
+            }
+            
+            stopRecording() {
+                if (this.recognition && this.isRecording) {
+                    this.recognition.stop();
+                }
+                
+                this.isRecording = false;
+                this.elements.voiceModal.classList.remove('active');
+                this.elements.voiceInputBtn.classList.remove('recording');
+                
+                clearInterval(this.recordingTimer);
+                
+                // Get the final transcript
+                const transcript = this.elements.voiceTranscript.textContent;
+                if (transcript && transcript !== 'Your speech will appear here...' && !transcript.includes('Starting voice recognition')) {
+                    this.elements.messageInput.value = transcript;
+                    this.elements.messageInput.style.height = 'auto';
+                    this.elements.messageInput.style.height = Math.min(this.elements.messageInput.scrollHeight, 150) + 'px';
+                    this.elements.messageInput.focus();
+                }
+            }
+            
+            cancelRecording() {
+                this.stopRecording();
+                this.elements.voiceTranscript.textContent = 'Your speech will appear here...';
+                this.elements.voiceTranscript.classList.remove('active');
+            }
+            
+            startRecordingTimer() {
+                this.recordingSeconds = 0;
+                this.updateRecordingTimer();
+                
+                this.recordingTimer = setInterval(() => {
+                    this.recordingSeconds++;
+                    this.updateRecordingTimer();
+                }, 1000);
+            }
+            
+            updateRecordingTimer() {
+                const minutes = Math.floor(this.recordingSeconds / 60);
+                const seconds = this.recordingSeconds % 60;
+                this.elements.voiceTimer.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+            }
+            
+            startSessionTimer() {
+                this.updateSessionTimer();
+                this.sessionTimer = setInterval(() => {
+                    this.updateSessionTimer();
+                }, 60000); // Update every minute
+            }
+            
+            updateSessionTimer() {
+                const now = new Date();
+                const diffMs = now - this.sessionStart;
+                const diffMins = Math.floor(diffMs / 60000);
+                this.elements.sessionTimer.textContent = `${diffMins} min`;
+            }
+            
+            updateUI() {
+                this.elements.messageCount.textContent = this.chatHistory.length;
+            }
+            
+            clearChat() {
+                if (this.chatHistory.length === 0) return;
+                
+                if (confirm('Clear all chat history? This action cannot be undone.')) {
+                    this.chatHistory = [];
+                    localStorage.removeItem('ghostArchitectChatHistory');
+                    
+                    // Clear chat UI
+                    this.elements.chatMessages.innerHTML = '';
+                    this.elements.welcomeScreen.style.display = 'flex';
+                    
+                    // Show system message
+                    this.showSystemMessage('Chat history cleared. Starting fresh session.');
+                    
+                    this.updateUI();
+                }
+            }
+            
+            speakLastResponse() {
+                const aiMessages = this.chatHistory.filter(msg => msg.sender === 'ai');
+                if (aiMessages.length === 0) {
+                    this.showSystemMessage('No AI responses available to speak.');
+                    return;
+                }
+                
+                const lastResponse = aiMessages[aiMessages.length - 1].text;
+                
+                if (!this.speechSynthesis) {
+                    this.showSystemMessage('Text-to-speech is not supported in your browser.');
+                    return;
+                }
+                
+                // Cancel any ongoing speech
+                this.speechSynthesis.cancel();
+                
+                const utterance = new SpeechSynthesisUtterance(lastResponse);
+                utterance.rate = 1.0;
+                utterance.pitch = 1.0;
+                utterance.volume = 1.0;
+                
+                // Speak the text
+                this.speechSynthesis.speak(utterance);
+                
+                // Visual feedback
+                this.elements.ttsBtn.classList.add('recording');
+                setTimeout(() => {
+                    this.elements.ttsBtn.classList.remove('recording');
+                }, 3000);
+            }
+            
+            exportChat() {
+                if (this.chatHistory.length === 0) {
+                    this.showSystemMessage('No chat history to export.');
+                    return;
+                }
+                
+                let exportText = `GHOST ARCHITECT AI - Chat Export\n`;
+                exportText += `Date: ${new Date().toLocaleDateString()}\n`;
+                exportText += `Persona: ${GHOST_SYSTEM.personas[this.currentPersona].name}\n`;
+                exportText += `Messages: ${this.chatHistory.length}\n`;
+                exportText += `\n`.repeat(2);
+                
+                this.chatHistory.forEach(msg => {
+                    const sender = msg.sender === 'user' ? 'You' : GHOST_SYSTEM.personas[msg.persona || this.currentPersona].name;
+                    const time = new Date(msg.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+                    exportText += `[${time}] ${sender}:\n`;
+                    exportText += `${msg.text}\n\n`;
+                });
+                
+                const blob = new Blob([exportText], { type: 'text/plain' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `ghost-architect-chat-${new Date().toISOString().slice(0, 10)}.txt`;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+                
+                this.showSystemMessage('Chat exported successfully.');
+            }
+            
+            toggleSidebar() {
+                this.elements.sidebar.classList.toggle('active');
+                this.elements.mobileOverlay.classList.toggle('active');
+            }
+            
+            closeSidebar() {
+                this.elements.sidebar.classList.remove('active');
+                this.elements.mobileOverlay.classList.remove('active');
+            }
         }
-
-        // Clear Chat History
-        function clearChatHistory() {
-            if (confirm('Clear all chat history? This action cannot be undone.')) {
-                chatHistory = [];
-                localStorage.removeItem('ghostArchitectChatHistory');
-                
-                // Clear chat UI
-                chatMessages.innerHTML = '';
-                welcomeScreen.style.display = 'flex';
-                
-                // Add system message
-                addMessage('system', 'Chat history cleared. Starting fresh.');
-                
-                // Update memory display
-                updateMemoryDisplay();
-            }
+        
+        // Initialize the app
+        document.addEventListener('DOMContentLoaded', () => {
+            new GhostArchitectApp();
+        });
+        
+        // Global function for welcome screen voice test
+        function startVoiceInput() {
+            const app = new GhostArchitectApp();
+            app.startVoiceInput();
         }
     </script>
 </body>
