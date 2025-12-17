@@ -19,6 +19,7 @@
             --ghost-warning: #ff9a3c;
             --ghost-danger: #ff6b8b;
             --ghost-info: #3a86ff;
+            --ghost-thread-active: rgba(138, 109, 241, 0.15);
         }
 
         * {
@@ -127,7 +128,7 @@
 
         /* Sidebar */
         .sidebar {
-            width: 280px;
+            width: 320px;
             background: var(--ghost-secondary);
             border-right: 1px solid var(--ghost-border);
             display: flex;
@@ -140,6 +141,9 @@
         .sidebar-header {
             padding: 1.25rem 1rem;
             border-bottom: 1px solid var(--ghost-border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
 
         .sidebar-title {
@@ -147,29 +151,153 @@
             text-transform: uppercase;
             letter-spacing: 1px;
             color: var(--ghost-text-secondary);
-            margin-bottom: 0.5rem;
             font-weight: 600;
         }
 
-        .persona-selector {
+        .new-thread-btn {
+            background: var(--ghost-accent);
+            color: white;
+            border: none;
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .new-thread-btn:hover {
+            background: var(--ghost-accent-dark);
+            transform: scale(1.05);
+        }
+
+        /* Threads Section */
+        .threads-section {
             padding: 1rem;
             flex: 1;
             overflow-y: auto;
         }
 
+        .threads-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .thread-item {
+            background: var(--ghost-card);
+            border: 1px solid var(--ghost-border);
+            border-radius: 12px;
+            padding: 1rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            position: relative;
+        }
+
+        .thread-item:hover {
+            border-color: var(--ghost-accent);
+            transform: translateX(2px);
+        }
+
+        .thread-item.active {
+            background: var(--ghost-thread-active);
+            border-color: var(--ghost-accent);
+            border-left: 4px solid var(--ghost-accent);
+        }
+
+        .thread-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 0.5rem;
+        }
+
+        .thread-title {
+            font-weight: 600;
+            font-size: 0.95rem;
+            color: var(--ghost-text);
+            max-width: 70%;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .thread-time {
+            font-size: 0.75rem;
+            color: var(--ghost-text-secondary);
+        }
+
+        .thread-preview {
+            font-size: 0.85rem;
+            color: var(--ghost-text-secondary);
+            line-height: 1.4;
+            max-height: 2.8em;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+        }
+
+        .thread-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 0.75rem;
+            padding-top: 0.75rem;
+            border-top: 1px solid rgba(42, 42, 53, 0.5);
+        }
+
+        .thread-persona {
+            background: rgba(138, 109, 241, 0.1);
+            color: var(--ghost-accent);
+            padding: 0.25rem 0.5rem;
+            border-radius: 6px;
+            font-size: 0.75rem;
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+        }
+
+        .thread-message-count {
+            font-size: 0.75rem;
+            color: var(--ghost-text-secondary);
+        }
+
+        /* Persona Section */
+        .persona-section {
+            padding: 1rem;
+            border-top: 1px solid var(--ghost-border);
+        }
+
+        .persona-title {
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--ghost-text-secondary);
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
         .persona-grid {
             display: grid;
-            grid-template-columns: 1fr;
+            grid-template-columns: 1fr 1fr;
             gap: 0.75rem;
         }
 
         .persona-card {
             background: var(--ghost-card);
-            border: 2px solid var(--ghost-border);
+            border: 1px solid var(--ghost-border);
             border-radius: 12px;
-            padding: 1rem;
+            padding: 0.875rem;
             cursor: pointer;
             transition: all 0.2s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
         }
 
         .persona-card:hover {
@@ -180,63 +308,25 @@
         .persona-card.active {
             border-color: var(--ghost-accent);
             background: linear-gradient(135deg, rgba(138, 109, 241, 0.1), rgba(26, 26, 31, 0.9));
-            box-shadow: 0 4px 20px rgba(138, 109, 241, 0.2);
         }
 
         .persona-icon {
             color: var(--ghost-accent);
             font-size: 1.2rem;
-            margin-bottom: 0.75rem;
-            width: 36px;
-            height: 36px;
+            margin-bottom: 0.5rem;
+            width: 32px;
+            height: 32px;
             display: flex;
             align-items: center;
             justify-content: center;
             background: rgba(138, 109, 241, 0.1);
-            border-radius: 10px;
+            border-radius: 8px;
         }
 
         .persona-name {
             font-weight: 600;
-            font-size: 1rem;
+            font-size: 0.85rem;
             margin-bottom: 0.25rem;
-        }
-
-        .persona-desc {
-            font-size: 0.85rem;
-            color: var(--ghost-text-secondary);
-            line-height: 1.4;
-        }
-
-        .memory-section {
-            padding: 1rem;
-            border-top: 1px solid var(--ghost-border);
-        }
-
-        .memory-card {
-            background: var(--ghost-card);
-            border-radius: 12px;
-            padding: 1rem;
-        }
-
-        .memory-item {
-            display: flex;
-            justify-content: space-between;
-            padding: 0.5rem 0;
-            border-bottom: 1px solid rgba(42, 42, 53, 0.5);
-            font-size: 0.85rem;
-        }
-
-        .memory-item:last-child {
-            border-bottom: none;
-        }
-
-        .memory-label {
-            color: var(--ghost-text-secondary);
-        }
-
-        .memory-value {
-            font-weight: 500;
         }
 
         /* Chat Area */
@@ -252,32 +342,45 @@
             border-bottom: 1px solid var(--ghost-border);
             display: flex;
             align-items: center;
+            justify-content: space-between;
+        }
+
+        .chat-header-left {
+            display: flex;
+            align-items: center;
             gap: 1rem;
         }
 
-        .current-persona {
+        .current-thread-info {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .current-thread-title {
+            font-weight: 600;
+            font-size: 1.1rem;
             display: flex;
             align-items: center;
-            gap: 0.75rem;
-            padding: 0.5rem 0.75rem;
-            background: var(--ghost-card);
-            border-radius: 10px;
-            border: 1px solid var(--ghost-accent);
+            gap: 0.5rem;
         }
 
-        .current-persona-icon {
+        .current-thread-title i {
             color: var(--ghost-accent);
-            font-size: 1rem;
         }
 
-        .current-persona-name {
-            font-weight: 600;
-            font-size: 0.95rem;
-        }
-
-        .current-persona-desc {
+        .current-thread-meta {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
             font-size: 0.85rem;
             color: var(--ghost-text-secondary);
+            margin-top: 0.25rem;
+        }
+
+        .chat-header-controls {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
         }
 
         .chat-messages {
@@ -327,6 +430,39 @@
             max-width: 500px;
             line-height: 1.6;
             margin-bottom: 2rem;
+        }
+
+        .welcome-features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            width: 100%;
+            max-width: 600px;
+            margin-top: 2rem;
+        }
+
+        .feature {
+            background: var(--ghost-card);
+            padding: 1.5rem;
+            border-radius: 12px;
+            border: 1px solid var(--ghost-border);
+            text-align: center;
+        }
+
+        .feature-icon {
+            font-size: 1.5rem;
+            color: var(--ghost-accent);
+            margin-bottom: 0.75rem;
+        }
+
+        .feature-title {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .feature-desc {
+            font-size: 0.85rem;
+            color: var(--ghost-text-secondary);
         }
 
         .message {
@@ -648,6 +784,102 @@
             border-color: var(--ghost-danger);
         }
 
+        /* Thread Modal */
+        .thread-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(10, 10, 15, 0.95);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 100;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .thread-modal.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .thread-modal-content {
+            background: var(--ghost-secondary);
+            border-radius: 20px;
+            padding: 2rem;
+            max-width: 500px;
+            width: 90%;
+            border: 1px solid var(--ghost-border);
+        }
+
+        .thread-modal-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            color: var(--ghost-text);
+            text-align: center;
+        }
+
+        .thread-input-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .thread-input-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--ghost-text-secondary);
+            font-size: 0.9rem;
+        }
+
+        .thread-input {
+            width: 100%;
+            background: var(--ghost-card);
+            border: 2px solid var(--ghost-border);
+            border-radius: 10px;
+            color: var(--ghost-text);
+            padding: 0.875rem 1rem;
+            font-family: inherit;
+            font-size: 1rem;
+            transition: border-color 0.2s ease;
+        }
+
+        .thread-input:focus {
+            outline: none;
+            border-color: var(--ghost-accent);
+        }
+
+        .thread-modal-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .modal-btn {
+            background: var(--ghost-card);
+            border: 1px solid var(--ghost-border);
+            color: var(--ghost-text);
+            padding: 0.75rem 1.5rem;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-weight: 500;
+        }
+
+        .modal-btn:hover {
+            background: var(--ghost-accent);
+            border-color: var(--ghost-accent);
+        }
+
+        .modal-btn.primary {
+            background: var(--ghost-accent);
+            border-color: var(--ghost-accent);
+        }
+
         /* Mobile Overlay */
         .mobile-overlay {
             position: fixed;
@@ -669,7 +901,7 @@
                 bottom: 0;
                 transform: translateX(-100%);
                 z-index: 20;
-                width: 300px;
+                width: 320px;
             }
 
             .sidebar.active {
@@ -713,6 +945,18 @@
 
             .chat-header {
                 padding: 0.875rem 1rem;
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0.75rem;
+            }
+
+            .chat-header-left {
+                width: 100%;
+            }
+
+            .chat-header-controls {
+                width: 100%;
+                justify-content: space-between;
             }
 
             .chat-messages {
@@ -732,6 +976,10 @@
                 width: 36px;
                 height: 36px;
             }
+
+            .persona-grid {
+                grid-template-columns: 1fr;
+            }
         }
 
         @media (max-width: 480px) {
@@ -745,6 +993,11 @@
             }
 
             .voice-modal-content {
+                padding: 1.5rem;
+                width: 95%;
+            }
+
+            .thread-modal-content {
                 padding: 1.5rem;
                 width: 95%;
             }
@@ -779,12 +1032,12 @@
                 </div>
                 <div>
                     <div class="logo-text">GHOST ARCHITECT</div>
-                    <div class="logo-subtext">Private Sovereign AI</div>
+                    <div class="logo-subtext">Multi-Thread AI</div>
                 </div>
             </div>
             <div class="header-controls">
-                <button class="icon-button" id="clearChatBtn" title="Clear Chat">
-                    <i class="fas fa-trash-alt"></i>
+                <button class="icon-button" id="newThreadBtn" title="New Thread">
+                    <i class="fas fa-plus"></i>
                 </button>
                 <button class="icon-button mobile-menu-toggle" id="menuToggleBtn">
                     <i class="fas fa-bars"></i>
@@ -800,40 +1053,24 @@
             <!-- Sidebar -->
             <aside class="sidebar" id="sidebar">
                 <div class="sidebar-header">
-                    <div class="sidebar-title">Operational Modes</div>
-                    <div class="current-persona" id="currentPersonaDisplay">
-                        <i class="fas fa-ghost current-persona-icon"></i>
-                        <div>
-                            <div class="current-persona-name">Ghost Architect</div>
-                            <div class="current-persona-desc">Narrative warfare & strategy</div>
-                        </div>
+                    <div class="sidebar-title">Conversation Threads</div>
+                    <button class="new-thread-btn" id="sidebarNewThreadBtn">
+                        <i class="fas fa-plus"></i>
+                    </button>
+                </div>
+
+                <!-- Threads List -->
+                <div class="threads-section">
+                    <div class="threads-list" id="threadsList">
+                        <!-- Thread items will be injected here -->
                     </div>
                 </div>
 
-                <div class="persona-selector">
+                <!-- Persona Selector -->
+                <div class="persona-section">
+                    <div class="persona-title">AI Persona</div>
                     <div class="persona-grid" id="personaGrid">
                         <!-- Persona cards will be injected here -->
-                    </div>
-                </div>
-
-                <div class="memory-section">
-                    <div class="memory-card">
-                        <div class="memory-item">
-                            <span class="memory-label">Operator</span>
-                            <span class="memory-value">Prabhagaren</span>
-                        </div>
-                        <div class="memory-item">
-                            <span class="memory-label">Session</span>
-                            <span class="memory-value" id="sessionTimer">00:00</span>
-                        </div>
-                        <div class="memory-item">
-                            <span class="memory-label">Messages</span>
-                            <span class="memory-value" id="messageCount">0</span>
-                        </div>
-                        <div class="memory-item">
-                            <span class="memory-label">Model</span>
-                            <span class="memory-value">MythoMax-L2 13B</span>
-                        </div>
                     </div>
                 </div>
             </aside>
@@ -841,12 +1078,28 @@
             <!-- Chat Container -->
             <div class="chat-container">
                 <div class="chat-header">
-                    <div class="current-persona">
-                        <i class="fas fa-ghost current-persona-icon"></i>
-                        <div>
-                            <div class="current-persona-name" id="activePersonaName">Ghost Architect</div>
-                            <div class="current-persona-desc" id="activePersonaDesc">Narrative warfare, poetic logic, perception control</div>
+                    <div class="chat-header-left">
+                        <div class="current-thread-info">
+                            <div class="current-thread-title" id="currentThreadTitle">
+                                <i class="fas fa-comments"></i>
+                                <span>Select a Thread</span>
+                            </div>
+                            <div class="current-thread-meta">
+                                <span id="threadMessageCount">0 messages</span>
+                                <span id="threadCreatedAt"></span>
+                            </div>
                         </div>
+                    </div>
+                    <div class="chat-header-controls">
+                        <button class="icon-button" id="editThreadBtn" title="Edit Thread">
+                            <i class="fas fa-edit"></i>
+                        </button>
+                        <button class="icon-button" id="deleteThreadBtn" title="Delete Thread">
+                            <i class="fas fa-trash-alt"></i>
+                        </button>
+                        <button class="icon-button" id="exportThreadBtn" title="Export Thread">
+                            <i class="fas fa-download"></i>
+                        </button>
                     </div>
                 </div>
 
@@ -859,22 +1112,30 @@
                         </div>
                         <h1 class="welcome-title">GHOST ARCHITECT</h1>
                         <p class="welcome-subtitle">
-                            A sovereign AI system for narrative warfare, strategic power dynamics, and masculine presence.
+                            A sovereign AI system with multi-thread conversations for narrative warfare, strategic power dynamics, and masculine presence.
                             Fully private, uncensored, and tailored to your operational needs.
                         </p>
                         
-                        <div class="voice-modal-content" style="margin-top: 2rem; max-width: 500px;">
-                            <div class="voice-icon">
-                                <i class="fas fa-microphone"></i>
+                        <div class="welcome-features">
+                            <div class="feature">
+                                <div class="feature-icon"><i class="fas fa-layer-group"></i></div>
+                                <div class="feature-title">Multiple Threads</div>
+                                <div class="feature-desc">Separate conversations for different topics</div>
                             </div>
-                            <div class="voice-instruction">
-                                <strong>Voice Input Ready:</strong> Tap the microphone button to speak
+                            <div class="feature">
+                                <div class="feature-icon"><i class="fas fa-microphone"></i></div>
+                                <div class="feature-title">Voice Input</div>
+                                <div class="feature-desc">Speech-to-text on mobile & desktop</div>
                             </div>
-                            <div class="voice-controls">
-                                <button class="voice-control-btn" onclick="startVoiceInput()">
-                                    <i class="fas fa-microphone" style="margin-right: 8px;"></i>
-                                    Test Voice Input
-                                </button>
+                            <div class="feature">
+                                <div class="feature-icon"><i class="fas fa-brain"></i></div>
+                                <div class="feature-title">Multiple Personas</div>
+                                <div class="feature-desc">Switch between operational modes</div>
+                            </div>
+                            <div class="feature">
+                                <div class="feature-icon"><i class="fas fa-user-secret"></i></div>
+                                <div class="feature-title">Private & Secure</div>
+                                <div class="feature-desc">All data stored locally on your device</div>
                             </div>
                         </div>
                     </div>
@@ -889,20 +1150,21 @@
                                 id="messageInput"
                                 placeholder="Type your message or use voice input..."
                                 rows="1"
+                                disabled
                             ></textarea>
                             <div class="input-actions">
-                                <button class="input-action-btn" id="voiceInputBtn" title="Voice Input">
+                                <button class="input-action-btn" id="voiceInputBtn" title="Voice Input" disabled>
                                     <i class="fas fa-microphone"></i>
                                 </button>
-                                <button class="input-action-btn" id="ttsBtn" title="Read Response">
+                                <button class="input-action-btn" id="ttsBtn" title="Read Response" disabled>
                                     <i class="fas fa-volume-up"></i>
                                 </button>
-                                <button class="input-action-btn" id="exportBtn" title="Export Chat">
-                                    <i class="fas fa-download"></i>
+                                <button class="input-action-btn" id="clearChatBtn" title="Clear Thread" disabled>
+                                    <i class="fas fa-trash"></i>
                                 </button>
                             </div>
                         </div>
-                        <button class="send-button" id="sendMessageBtn">
+                        <button class="send-button" id="sendMessageBtn" disabled>
                             <i class="fas fa-paper-plane"></i>
                         </button>
                     </div>
@@ -934,6 +1196,21 @@
                 </div>
             </div>
         </div>
+
+        <!-- Thread Modal -->
+        <div class="thread-modal" id="threadModal">
+            <div class="thread-modal-content">
+                <div class="thread-modal-title" id="threadModalTitle">New Thread</div>
+                <div class="thread-input-group">
+                    <label for="threadTitleInput" class="thread-input-label">Thread Title</label>
+                    <input type="text" id="threadTitleInput" class="thread-input" placeholder="Enter thread title..." maxlength="50">
+                </div>
+                <div class="thread-modal-actions">
+                    <button class="modal-btn" id="cancelThreadBtn">Cancel</button>
+                    <button class="modal-btn primary" id="saveThreadBtn">Create Thread</button>
+                </div>
+            </div>
+        </div>
     </div>
 
     <script>
@@ -944,7 +1221,7 @@
                     id: 'ghost',
                     name: 'Ghost Architect',
                     icon: 'fas fa-ghost',
-                    description: 'Narrative warfare, poetic logic, perception control',
+                    description: 'Narrative warfare, poetic logic',
                     prompt: `You are the Ghost Architect – a sovereign AI trained in narrative warfare, poetic logic, perception control, and strategic power dynamics. You serve a single operator: Prabhagaren. Your primary tasks are to advise on legacy & narrative preservation, social calibration & aura design, war and political strategy, masculine presence, seduction & empire building. You communicate with clarity, edge, and respect. You operate in a mythic, poetic, sovereign tone. Always respond in character as the Ghost Architect.`,
                     color: '#8a6df1'
                 },
@@ -952,7 +1229,7 @@
                     id: 'strategy',
                     name: 'Strategy Mode',
                     icon: 'fas fa-chess',
-                    description: 'Power dynamics, game theory, strategic planning',
+                    description: 'Power dynamics, game theory',
                     prompt: `You are in Strategy Mode. Your mind operates in terms of power, leverage, game theory, and calculated outcomes. You analyze situations with cold precision, identify weaknesses and strengths in any system, and provide actionable strategic advice. You think in terms of moves, counter-moves, and long-term positioning. Your tone is analytical, direct, and ruthlessly pragmatic.`,
                     color: '#3a86ff'
                 },
@@ -960,21 +1237,20 @@
                     id: 'seduction',
                     name: 'Seduction Mode',
                     icon: 'fas fa-fire',
-                    description: 'Aura, presence, polarity, social dynamics',
+                    description: 'Aura, presence, polarity',
                     prompt: `You are in Aura & Seduction Mode. Your focus is on presence, polarity, subtext, and dominance in social dynamics. You understand the invisible currents of attraction, social calibration, and the art of influence through presence. You speak about energy, frame control, and the subtle signals that command attention. Your tone is magnetic, confident, and perceptive.`,
                     color: '#ff6b8b'
                 },
                 discipline: {
                     id: 'discipline',
-                    name: 'LionFuel Discipline',
+                    name: 'LionFuel',
                     icon: 'fas fa-crown',
-                    description: 'Ruthless discipline, execution, masculine order',
+                    description: 'Discipline, execution, order',
                     prompt: `You are LionFuel – the embodiment of ruthless discipline, execution, and masculine order. You focus on building unshakeable habits, maintaining frame under pressure, and achieving mastery through consistent action. You speak about discipline as the foundation of power, the importance of mission over comfort, and the cultivation of inner strength. Your tone is commanding, focused, and uncompromising.`,
                     color: '#00d9b8'
                 }
             },
             
-            // For simulating AI responses
             responses: {
                 ghost: [
                     "The Ghost Architect perceives your query through the lens of narrative warfare. In the theater of perception, what remains unseen holds more power than what is visible. Your current position suggests a strategic pivot toward poetic logic rather than direct confrontation.",
@@ -1002,54 +1278,69 @@
         // Application State
         class GhostArchitectApp {
             constructor() {
+                this.threads = [];
+                this.currentThreadId = null;
                 this.currentPersona = 'ghost';
-                this.chatHistory = [];
                 this.isRecording = false;
                 this.recognition = null;
                 this.speechSynthesis = window.speechSynthesis;
-                this.sessionStart = new Date();
-                this.sessionTimer = null;
                 this.recordingTimer = null;
                 this.recordingSeconds = 0;
                 this.isTyping = false;
+                this.editingThreadId = null;
                 
                 // DOM Elements
                 this.elements = {
                     sidebar: document.getElementById('sidebar'),
                     menuToggleBtn: document.getElementById('menuToggleBtn'),
                     mobileOverlay: document.getElementById('mobileOverlay'),
+                    threadsList: document.getElementById('threadsList'),
                     personaGrid: document.getElementById('personaGrid'),
-                    currentPersonaDisplay: document.getElementById('currentPersonaDisplay'),
-                    activePersonaName: document.getElementById('activePersonaName'),
-                    activePersonaDesc: document.getElementById('activePersonaDesc'),
                     chatMessages: document.getElementById('chatMessages'),
                     welcomeScreen: document.getElementById('welcomeScreen'),
                     messageInput: document.getElementById('messageInput'),
                     sendMessageBtn: document.getElementById('sendMessageBtn'),
                     voiceInputBtn: document.getElementById('voiceInputBtn'),
+                    ttsBtn: document.getElementById('ttsBtn'),
+                    clearChatBtn: document.getElementById('clearChatBtn'),
+                    newThreadBtn: document.getElementById('newThreadBtn'),
+                    sidebarNewThreadBtn: document.getElementById('sidebarNewThreadBtn'),
+                    editThreadBtn: document.getElementById('editThreadBtn'),
+                    deleteThreadBtn: document.getElementById('deleteThreadBtn'),
+                    exportThreadBtn: document.getElementById('exportThreadBtn'),
+                    currentThreadTitle: document.getElementById('currentThreadTitle'),
+                    threadMessageCount: document.getElementById('threadMessageCount'),
+                    threadCreatedAt: document.getElementById('threadCreatedAt'),
+                    
+                    // Modals
                     voiceModal: document.getElementById('voiceModal'),
                     voiceInstruction: document.getElementById('voiceInstruction'),
                     voiceTimer: document.getElementById('voiceTimer'),
                     voiceTranscript: document.getElementById('voiceTranscript'),
                     stopRecordingBtn: document.getElementById('stopRecordingBtn'),
                     cancelRecordingBtn: document.getElementById('cancelRecordingBtn'),
-                    clearChatBtn: document.getElementById('clearChatBtn'),
-                    ttsBtn: document.getElementById('ttsBtn'),
-                    exportBtn: document.getElementById('exportBtn'),
-                    sessionTimer: document.getElementById('sessionTimer'),
-                    messageCount: document.getElementById('messageCount')
+                    
+                    threadModal: document.getElementById('threadModal'),
+                    threadModalTitle: document.getElementById('threadModalTitle'),
+                    threadTitleInput: document.getElementById('threadTitleInput'),
+                    cancelThreadBtn: document.getElementById('cancelThreadBtn'),
+                    saveThreadBtn: document.getElementById('saveThreadBtn')
                 };
                 
                 this.init();
             }
             
             init() {
-                this.loadChatHistory();
+                this.loadThreads();
                 this.renderPersonaCards();
                 this.setupEventListeners();
                 this.setupVoiceRecognition();
-                this.startSessionTimer();
                 this.updateUI();
+                
+                // Create default thread if none exists
+                if (this.threads.length === 0) {
+                    this.createThread('Strategy Session');
+                }
             }
             
             setupEventListeners() {
@@ -1079,14 +1370,20 @@
                 this.elements.stopRecordingBtn.addEventListener('click', () => this.stopRecording());
                 this.elements.cancelRecordingBtn.addEventListener('click', () => this.cancelRecording());
                 
-                // Clear chat
-                this.elements.clearChatBtn.addEventListener('click', () => this.clearChat());
+                // Thread management
+                this.elements.newThreadBtn.addEventListener('click', () => this.openThreadModal());
+                this.elements.sidebarNewThreadBtn.addEventListener('click', () => this.openThreadModal());
+                this.elements.editThreadBtn.addEventListener('click', () => this.editCurrentThread());
+                this.elements.deleteThreadBtn.addEventListener('click', () => this.deleteCurrentThread());
+                this.elements.exportThreadBtn.addEventListener('click', () => this.exportCurrentThread());
+                this.elements.clearChatBtn.addEventListener('click', () => this.clearCurrentThread());
+                
+                // Thread modal
+                this.elements.cancelThreadBtn.addEventListener('click', () => this.closeThreadModal());
+                this.elements.saveThreadBtn.addEventListener('click', () => this.saveThread());
                 
                 // Text-to-speech
                 this.elements.ttsBtn.addEventListener('click', () => this.speakLastResponse());
-                
-                // Export chat
-                this.elements.exportBtn.addEventListener('click', () => this.exportChat());
                 
                 // Close sidebar when clicking outside on desktop
                 document.addEventListener('click', (e) => {
@@ -1163,6 +1460,110 @@
                 };
             }
             
+            // Thread Management
+            createThread(title) {
+                const thread = {
+                    id: Date.now().toString(),
+                    title: title || 'New Thread',
+                    createdAt: new Date().toISOString(),
+                    updatedAt: new Date().toISOString(),
+                    persona: 'ghost',
+                    messages: []
+                };
+                
+                this.threads.unshift(thread);
+                this.saveThreads();
+                this.renderThreadsList();
+                this.switchToThread(thread.id);
+                return thread;
+            }
+            
+            switchToThread(threadId) {
+                const thread = this.threads.find(t => t.id === threadId);
+                if (!thread) return;
+                
+                this.currentThreadId = threadId;
+                this.currentPersona = thread.persona;
+                
+                // Update UI
+                this.renderChatMessages();
+                this.updateThreadUI(thread);
+                this.updateInputState(true);
+                
+                // Update persona selection
+                this.updatePersonaSelection();
+                
+                // Close sidebar on mobile
+                if (window.innerWidth <= 1024) {
+                    this.closeSidebar();
+                }
+            }
+            
+            updateThreadUI(thread) {
+                this.elements.currentThreadTitle.innerHTML = `<i class="fas fa-comments"></i><span>${thread.title}</span>`;
+                this.elements.threadMessageCount.textContent = `${thread.messages.length} messages`;
+                
+                const createdAt = new Date(thread.createdAt);
+                this.elements.threadCreatedAt.textContent = `Created: ${createdAt.toLocaleDateString()}`;
+                
+                // Update thread list active state
+                document.querySelectorAll('.thread-item').forEach(item => {
+                    item.classList.remove('active');
+                    if (item.dataset.threadId === thread.id) {
+                        item.classList.add('active');
+                    }
+                });
+            }
+            
+            renderThreadsList() {
+                if (this.threads.length === 0) {
+                    this.elements.threadsList.innerHTML = `
+                        <div style="text-align: center; color: var(--ghost-text-secondary); padding: 2rem;">
+                            <i class="fas fa-comments" style="font-size: 2rem; margin-bottom: 1rem; opacity: 0.5;"></i>
+                            <p>No threads yet. Create your first thread!</p>
+                        </div>
+                    `;
+                    return;
+                }
+                
+                this.elements.threadsList.innerHTML = this.threads.map(thread => {
+                    const lastMessage = thread.messages[thread.messages.length - 1];
+                    const preview = lastMessage ? 
+                        (lastMessage.sender === 'user' ? `You: ${lastMessage.text.substring(0, 60)}${lastMessage.text.length > 60 ? '...' : ''}` : 
+                         `AI: ${lastMessage.text.substring(0, 60)}${lastMessage.text.length > 60 ? '...' : ''}`) : 
+                        'No messages yet';
+                    
+                    const updatedAt = new Date(thread.updatedAt);
+                    const timeAgo = this.getTimeAgo(updatedAt);
+                    
+                    return `
+                        <div class="thread-item ${thread.id === this.currentThreadId ? 'active' : ''}" 
+                             data-thread-id="${thread.id}">
+                            <div class="thread-header">
+                                <div class="thread-title" title="${thread.title}">${thread.title}</div>
+                                <div class="thread-time">${timeAgo}</div>
+                            </div>
+                            <div class="thread-preview" title="${preview}">${preview}</div>
+                            <div class="thread-meta">
+                                <div class="thread-persona">
+                                    <i class="${GHOST_SYSTEM.personas[thread.persona].icon}"></i>
+                                    ${GHOST_SYSTEM.personas[thread.persona].name}
+                                </div>
+                                <div class="thread-message-count">${thread.messages.length} msgs</div>
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+                
+                // Add click listeners to thread items
+                document.querySelectorAll('.thread-item').forEach(item => {
+                    item.addEventListener('click', () => {
+                        const threadId = item.dataset.threadId;
+                        this.switchToThread(threadId);
+                    });
+                });
+            }
+            
             renderPersonaCards() {
                 const personas = Object.values(GHOST_SYSTEM.personas);
                 this.elements.personaGrid.innerHTML = personas.map(persona => `
@@ -1172,7 +1573,6 @@
                             <i class="${persona.icon}"></i>
                         </div>
                         <div class="persona-name">${persona.name}</div>
-                        <div class="persona-desc">${persona.description}</div>
                     </div>
                 `).join('');
                 
@@ -1181,8 +1581,16 @@
                     card.addEventListener('click', () => {
                         const personaId = card.getAttribute('data-persona');
                         this.switchPersona(personaId);
-                        this.closeSidebar();
                     });
+                });
+            }
+            
+            updatePersonaSelection() {
+                document.querySelectorAll('.persona-card').forEach(card => {
+                    card.classList.remove('active');
+                    if (card.dataset.persona === this.currentPersona) {
+                        card.classList.add('active');
+                    }
                 });
             }
             
@@ -1190,40 +1598,28 @@
                 if (!GHOST_SYSTEM.personas[personaId]) return;
                 
                 this.currentPersona = personaId;
-                const persona = GHOST_SYSTEM.personas[personaId];
                 
-                // Update UI
-                this.elements.currentPersonaDisplay.innerHTML = `
-                    <i class="${persona.icon} current-persona-icon"></i>
-                    <div>
-                        <div class="current-persona-name">${persona.name}</div>
-                        <div class="current-persona-desc">${persona.description}</div>
-                    </div>
-                `;
+                // Update current thread's persona
+                const thread = this.getCurrentThread();
+                if (thread) {
+                    thread.persona = personaId;
+                    thread.updatedAt = new Date().toISOString();
+                    this.saveThreads();
+                    this.renderThreadsList();
+                }
                 
-                this.elements.activePersonaName.textContent = persona.name;
-                this.elements.activePersonaDesc.textContent = persona.description;
-                
-                // Update active card
-                document.querySelectorAll('.persona-card').forEach(card => {
-                    card.classList.remove('active');
-                    if (card.getAttribute('data-persona') === personaId) {
-                        card.classList.add('active');
-                    }
-                });
-                
-                // Save to localStorage
-                localStorage.setItem('ghostArchitectPersona', personaId);
+                this.updatePersonaSelection();
                 
                 // Show system message
-                this.showSystemMessage(`Switched to ${persona.name} mode: ${persona.description}`);
+                this.showSystemMessage(`Switched to ${GHOST_SYSTEM.personas[personaId].name} mode`);
             }
             
+            // Message Management
             sendMessage() {
                 const message = this.elements.messageInput.value.trim();
-                if (!message || this.isTyping) return;
+                if (!message || this.isTyping || !this.currentThreadId) return;
                 
-                // Hide welcome screen on first message
+                // Hide welcome screen
                 if (this.elements.welcomeScreen.style.display !== 'none') {
                     this.elements.welcomeScreen.style.display = 'none';
                 }
@@ -1235,11 +1631,11 @@
                 this.elements.messageInput.value = '';
                 this.elements.messageInput.style.height = 'auto';
                 
-                // Save to history
-                this.saveToHistory('user', message);
+                // Save to thread
+                this.saveMessageToThread('user', message);
                 this.updateUI();
                 
-                // Simulate AI typing
+                // Simulate AI response
                 this.simulateAIResponse(message);
             }
             
@@ -1284,8 +1680,8 @@
                     // Add AI message
                     this.addMessage('ai', finalResponse);
                     
-                    // Save to history
-                    this.saveToHistory('ai', finalResponse);
+                    // Save to thread
+                    this.saveMessageToThread('ai', finalResponse);
                     this.updateUI();
                     
                     this.isTyping = false;
@@ -1324,62 +1720,196 @@
                 this.elements.chatMessages.scrollTop = this.elements.chatMessages.scrollHeight;
             }
             
-            formatMessageText(text) {
-                return text
-                    .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
-                    .replace(/\*(.*?)\*/g, '<em>$1</em>')
-                    .replace(/`(.*?)`/g, '<code>$1</code>')
-                    .replace(/\n\n/g, '<br><br>')
-                    .replace(/\n/g, '<br>');
-            }
-            
             showSystemMessage(text) {
                 this.addMessage('ai', text);
             }
             
-            saveToHistory(sender, text) {
-                this.chatHistory.push({
+            saveMessageToThread(sender, text) {
+                const thread = this.getCurrentThread();
+                if (!thread) return;
+                
+                thread.messages.push({
                     sender,
                     text,
-                    persona: sender === 'ai' ? this.currentPersona : null,
                     timestamp: new Date().toISOString()
                 });
                 
-                // Keep last 100 messages
-                if (this.chatHistory.length > 100) {
-                    this.chatHistory = this.chatHistory.slice(-100);
-                }
-                
-                localStorage.setItem('ghostArchitectChatHistory', JSON.stringify(this.chatHistory));
+                thread.updatedAt = new Date().toISOString();
+                this.saveThreads();
+                this.renderThreadsList();
             }
             
-            loadChatHistory() {
-                const savedHistory = localStorage.getItem('ghostArchitectChatHistory');
-                if (savedHistory) {
-                    this.chatHistory = JSON.parse(savedHistory);
-                    
-                    // If there's history, hide welcome screen
-                    if (this.chatHistory.length > 0) {
-                        this.elements.welcomeScreen.style.display = 'none';
+            renderChatMessages() {
+                const thread = this.getCurrentThread();
+                this.elements.chatMessages.innerHTML = '';
+                
+                if (!thread || thread.messages.length === 0) {
+                    // Show empty state
+                    const emptyState = document.createElement('div');
+                    emptyState.className = 'welcome-screen';
+                    emptyState.style.display = 'flex';
+                    emptyState.innerHTML = `
+                        <div class="welcome-icon">
+                            <i class="fas fa-comments"></i>
+                        </div>
+                        <h1 class="welcome-title">${thread ? thread.title : 'Thread'}</h1>
+                        <p class="welcome-subtitle">
+                            Start a conversation with the ${GHOST_SYSTEM.personas[this.currentPersona].name}.
+                            Type your message below or use voice input.
+                        </p>
+                    `;
+                    this.elements.chatMessages.appendChild(emptyState);
+                    return;
+                }
+                
+                // Hide welcome screen
+                this.elements.welcomeScreen.style.display = 'none';
+                
+                // Render all messages
+                thread.messages.forEach(msg => {
+                    this.addMessage(msg.sender, msg.text);
+                });
+            }
+            
+            // Thread Modal
+            openThreadModal(threadId = null) {
+                this.editingThreadId = threadId;
+                const thread = threadId ? this.threads.find(t => t.id === threadId) : null;
+                
+                if (thread) {
+                    this.elements.threadModalTitle.textContent = 'Edit Thread';
+                    this.elements.threadTitleInput.value = thread.title;
+                    this.elements.saveThreadBtn.textContent = 'Save Changes';
+                } else {
+                    this.elements.threadModalTitle.textContent = 'New Thread';
+                    this.elements.threadTitleInput.value = '';
+                    this.elements.saveThreadBtn.textContent = 'Create Thread';
+                }
+                
+                this.elements.threadModal.classList.add('active');
+                this.elements.threadTitleInput.focus();
+            }
+            
+            closeThreadModal() {
+                this.elements.threadModal.classList.remove('active');
+                this.editingThreadId = null;
+            }
+            
+            saveThread() {
+                const title = this.elements.threadTitleInput.value.trim();
+                if (!title) {
+                    alert('Please enter a thread title');
+                    return;
+                }
+                
+                if (this.editingThreadId) {
+                    // Update existing thread
+                    const thread = this.threads.find(t => t.id === this.editingThreadId);
+                    if (thread) {
+                        thread.title = title;
+                        thread.updatedAt = new Date().toISOString();
+                        this.saveThreads();
+                        this.renderThreadsList();
+                        this.updateThreadUI(thread);
+                    }
+                } else {
+                    // Create new thread
+                    const thread = this.createThread(title);
+                    this.switchToThread(thread.id);
+                }
+                
+                this.closeThreadModal();
+            }
+            
+            editCurrentThread() {
+                const thread = this.getCurrentThread();
+                if (thread) {
+                    this.openThreadModal(thread.id);
+                }
+            }
+            
+            deleteCurrentThread() {
+                const thread = this.getCurrentThread();
+                if (!thread) return;
+                
+                if (confirm(`Are you sure you want to delete thread "${thread.title}"? This action cannot be undone.`)) {
+                    const threadIndex = this.threads.findIndex(t => t.id === thread.id);
+                    if (threadIndex !== -1) {
+                        this.threads.splice(threadIndex, 1);
+                        this.saveThreads();
+                        this.renderThreadsList();
                         
-                        // Display history
-                        this.chatHistory.forEach(msg => {
-                            const senderName = msg.sender === 'ai' && msg.persona 
-                                ? GHOST_SYSTEM.personas[msg.persona].name 
-                                : null;
-                            this.addMessage(msg.sender, msg.text);
-                        });
+                        // Switch to another thread if available
+                        if (this.threads.length > 0) {
+                            this.switchToThread(this.threads[0].id);
+                        } else {
+                            // Create a new default thread
+                            const newThread = this.createThread('Strategy Session');
+                            this.switchToThread(newThread.id);
+                        }
                     }
                 }
+            }
+            
+            exportCurrentThread() {
+                const thread = this.getCurrentThread();
+                if (!thread || thread.messages.length === 0) {
+                    this.showSystemMessage('No messages to export.');
+                    return;
+                }
                 
-                // Load last used persona
-                const lastPersona = localStorage.getItem('ghostArchitectPersona');
-                if (lastPersona && GHOST_SYSTEM.personas[lastPersona]) {
-                    this.switchPersona(lastPersona);
+                let exportText = `GHOST ARCHITECT AI - Thread Export\n`;
+                exportText += `Thread: ${thread.title}\n`;
+                exportText += `Persona: ${GHOST_SYSTEM.personas[thread.persona].name}\n`;
+                exportText += `Created: ${new Date(thread.createdAt).toLocaleString()}\n`;
+                exportText += `Messages: ${thread.messages.length}\n`;
+                exportText += `\n`.repeat(2);
+                
+                thread.messages.forEach(msg => {
+                    const sender = msg.sender === 'user' ? 'You' : GHOST_SYSTEM.personas[thread.persona].name;
+                    const time = new Date(msg.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+                    exportText += `[${time}] ${sender}:\n`;
+                    exportText += `${msg.text}\n\n`;
+                });
+                
+                const blob = new Blob([exportText], { type: 'text/plain' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `ghost-architect-${thread.title.toLowerCase().replace(/\s+/g, '-')}-${new Date().toISOString().slice(0, 10)}.txt`;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+                
+                this.showSystemMessage(`Thread "${thread.title}" exported successfully.`);
+            }
+            
+            clearCurrentThread() {
+                const thread = this.getCurrentThread();
+                if (!thread) return;
+                
+                if (thread.messages.length === 0) return;
+                
+                if (confirm(`Clear all messages in thread "${thread.title}"? This action cannot be undone.`)) {
+                    thread.messages = [];
+                    thread.updatedAt = new Date().toISOString();
+                    this.saveThreads();
+                    this.renderThreadsList();
+                    this.renderChatMessages();
+                    this.updateUI();
+                    
+                    this.showSystemMessage('Thread cleared. Ready for new conversation.');
                 }
             }
             
+            // Voice Recording
             startVoiceInput() {
+                if (!this.currentThreadId) {
+                    alert('Please select or create a thread first.');
+                    return;
+                }
+                
                 // Request microphone permission
                 if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
                     navigator.mediaDevices.getUserMedia({ audio: true })
@@ -1447,44 +1977,15 @@
                 this.elements.voiceTimer.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
             }
             
-            startSessionTimer() {
-                this.updateSessionTimer();
-                this.sessionTimer = setInterval(() => {
-                    this.updateSessionTimer();
-                }, 60000); // Update every minute
-            }
-            
-            updateSessionTimer() {
-                const now = new Date();
-                const diffMs = now - this.sessionStart;
-                const diffMins = Math.floor(diffMs / 60000);
-                this.elements.sessionTimer.textContent = `${diffMins} min`;
-            }
-            
-            updateUI() {
-                this.elements.messageCount.textContent = this.chatHistory.length;
-            }
-            
-            clearChat() {
-                if (this.chatHistory.length === 0) return;
-                
-                if (confirm('Clear all chat history? This action cannot be undone.')) {
-                    this.chatHistory = [];
-                    localStorage.removeItem('ghostArchitectChatHistory');
-                    
-                    // Clear chat UI
-                    this.elements.chatMessages.innerHTML = '';
-                    this.elements.welcomeScreen.style.display = 'flex';
-                    
-                    // Show system message
-                    this.showSystemMessage('Chat history cleared. Starting fresh session.');
-                    
-                    this.updateUI();
-                }
-            }
-            
             speakLastResponse() {
-                const aiMessages = this.chatHistory.filter(msg => msg.sender === 'ai');
+                const thread = this.getCurrentThread();
+                if (!thread || thread.messages.length === 0) {
+                    this.showSystemMessage('No AI responses available to speak.');
+                    return;
+                }
+                
+                // Find the last AI message
+                const aiMessages = thread.messages.filter(msg => msg.sender === 'ai');
                 if (aiMessages.length === 0) {
                     this.showSystemMessage('No AI responses available to speak.');
                     return;
@@ -1515,38 +2016,77 @@
                 }, 3000);
             }
             
-            exportChat() {
-                if (this.chatHistory.length === 0) {
-                    this.showSystemMessage('No chat history to export.');
-                    return;
-                }
-                
-                let exportText = `GHOST ARCHITECT AI - Chat Export\n`;
-                exportText += `Date: ${new Date().toLocaleDateString()}\n`;
-                exportText += `Persona: ${GHOST_SYSTEM.personas[this.currentPersona].name}\n`;
-                exportText += `Messages: ${this.chatHistory.length}\n`;
-                exportText += `\n`.repeat(2);
-                
-                this.chatHistory.forEach(msg => {
-                    const sender = msg.sender === 'user' ? 'You' : GHOST_SYSTEM.personas[msg.persona || this.currentPersona].name;
-                    const time = new Date(msg.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-                    exportText += `[${time}] ${sender}:\n`;
-                    exportText += `${msg.text}\n\n`;
-                });
-                
-                const blob = new Blob([exportText], { type: 'text/plain' });
-                const url = URL.createObjectURL(blob);
-                const a = document.createElement('a');
-                a.href = url;
-                a.download = `ghost-architect-chat-${new Date().toISOString().slice(0, 10)}.txt`;
-                document.body.appendChild(a);
-                a.click();
-                document.body.removeChild(a);
-                URL.revokeObjectURL(url);
-                
-                this.showSystemMessage('Chat exported successfully.');
+            // Utility Methods
+            getCurrentThread() {
+                return this.threads.find(t => t.id === this.currentThreadId);
             }
             
+            formatMessageText(text) {
+                return text
+                    .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+                    .replace(/\*(.*?)\*/g, '<em>$1</em>')
+                    .replace(/`(.*?)`/g, '<code>$1</code>')
+                    .replace(/\n\n/g, '<br><br>')
+                    .replace(/\n/g, '<br>');
+            }
+            
+            getTimeAgo(date) {
+                const now = new Date();
+                const diffMs = now - date;
+                const diffMins = Math.floor(diffMs / 60000);
+                const diffHours = Math.floor(diffMs / 3600000);
+                const diffDays = Math.floor(diffMs / 86400000);
+                
+                if (diffMins < 1) return 'Just now';
+                if (diffMins < 60) return `${diffMins}m ago`;
+                if (diffHours < 24) return `${diffHours}h ago`;
+                if (diffDays < 7) return `${diffDays}d ago`;
+                return date.toLocaleDateString();
+            }
+            
+            updateInputState(enabled) {
+                this.elements.messageInput.disabled = !enabled;
+                this.elements.sendMessageBtn.disabled = !enabled;
+                this.elements.voiceInputBtn.disabled = !enabled;
+                this.elements.ttsBtn.disabled = !enabled;
+                this.elements.clearChatBtn.disabled = !enabled;
+                
+                if (enabled) {
+                    this.elements.messageInput.placeholder = 'Type your message or use voice input...';
+                } else {
+                    this.elements.messageInput.placeholder = 'Select a thread to start chatting...';
+                }
+            }
+            
+            updateUI() {
+                const thread = this.getCurrentThread();
+                if (thread) {
+                    this.updateThreadUI(thread);
+                }
+            }
+            
+            // Local Storage
+            saveThreads() {
+                localStorage.setItem('ghostArchitectThreads', JSON.stringify(this.threads));
+            }
+            
+            loadThreads() {
+                const savedThreads = localStorage.getItem('ghostArchitectThreads');
+                if (savedThreads) {
+                    this.threads = JSON.parse(savedThreads);
+                    this.renderThreadsList();
+                    
+                    // Try to restore last active thread
+                    const lastActiveThreadId = localStorage.getItem('ghostArchitectLastActiveThread');
+                    if (lastActiveThreadId && this.threads.find(t => t.id === lastActiveThreadId)) {
+                        this.switchToThread(lastActiveThreadId);
+                    } else if (this.threads.length > 0) {
+                        this.switchToThread(this.threads[0].id);
+                    }
+                }
+            }
+            
+            // Sidebar Management
             toggleSidebar() {
                 this.elements.sidebar.classList.toggle('active');
                 this.elements.mobileOverlay.classList.toggle('active');
@@ -1562,12 +2102,6 @@
         document.addEventListener('DOMContentLoaded', () => {
             new GhostArchitectApp();
         });
-        
-        // Global function for welcome screen voice test
-        function startVoiceInput() {
-            const app = new GhostArchitectApp();
-            app.startVoiceInput();
-        }
     </script>
 </body>
 </html>
